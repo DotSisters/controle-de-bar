@@ -1,0 +1,30 @@
+@{
+Layout = "_Layout";
+ViewData["BodyClass"] = "page-mint";
+}
+
+<section class="row hero g-4 g-lg-5">
+  <div class="col-lg-4 d-flex flex-column justify-content-start hero-copy">
+    <h1 class="display-5 hero-title mb-4">Controle de Bar</h1>
+    <p class="hero-lead mb-5">
+      Facilite a gestão do seu bar organizando mesas, garçons e produtos, controlando contas e pedidos com eficiência e
+      clareza.
+    </p>
+
+    <div class="d-flex flex-wrap align-items-center gap-3 hero-actions">
+      <a class="btn btn-primary btn-hero-primary" asp-controller="Autenticacao" asp-action="Entrar">Entrar</a>
+      <a class="btn btn-mint btn-hero-primary" asp-controller="Autenticacao" asp-action="Registrar">Registrar-se</a>
+    </div>
+
+    @* <ul class="hero-dots" aria-hidden="true">
+      <li><span class="hero-dot is-active"></span></li>
+      <li><span class="hero-dot"></span></li>
+      <li><span class="hero-dot"></span></li>
+      <li><span class="hero-dot"></span></li>
+    </ul> *@
+  </div>
+
+  <div class="col-lg-8 hero-visual">
+    <img src="~/img/teacher.png" alt="Ilustração de estudantes" class="hero-img" />
+  </div>
+</section>
