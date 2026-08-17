@@ -1,0 +1,50 @@
+@{
+Layout = "_Layout";
+ViewData["BodyClass"] = "page-mint";
+}
+
+@model EntrarViewModel
+
+<section class="row hero hero-auth g-4 g-lg-5">
+    <div class="col-lg-6 d-flex flex-column justify-content-start hero-copy">
+        <h1 class="display-5 hero-title mb-3">Entrar</h1>
+        <p class="hero-lead mb-4">
+            Acesse sua conta para continuar gerenciando seu bar, mesas, garçons, produtos, contas e pedidos.
+        </p>
+
+        <form class="card border shadow-sm p-4 w-100" asp-action="Entrar" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small fw-semibold mb-3"></div>
+
+            <input type="hidden" asp-for="ReturnUrl">
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label fw-semibold text-primary text-uppercase small">E-mail</label>
+                <input asp-for="Email" type="email" class="form-control" autofocus>
+                <span asp-validation-for="Email" class="text-danger small fw-semibold"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Senha" class="form-label fw-semibold text-primary text-uppercase small">Senha</label>
+                <input asp-for="Senha" type="password" class="form-control">
+                <span asp-validation-for="Senha" class="text-danger small fw-semibold"></span>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input asp-for="LembrarMe" type="checkbox" class="form-check-input">
+                <label asp-for="LembrarMe" class="form-check-label small text-muted">Lembrar-me</label>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <span class="text-muted small">
+                    Não tem conta? <a asp-action="Registrar" class="text-primary text-decoration-none fw-semibold">Criar
+                        Conta</a>
+                </span>
+                <button class="btn btn-primary px-4" type="submit">Entrar</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-lg-6 hero-visual">
+        <img src="~/img/students-img.png" alt="Ilustração de estudantes" class="hero-img" />
+    </div>
+</section>

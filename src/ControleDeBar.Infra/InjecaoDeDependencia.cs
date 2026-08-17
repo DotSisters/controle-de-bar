@@ -1,3 +1,4 @@
+using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using ControleDeBar.Infra.Compartilhado.Logging;
 using ControleDeBar.Infra.Compartilhado.Orm;
 using Microsoft.AspNetCore.Identity;
@@ -56,12 +57,16 @@ public static class InjecaoDeDependencia
             options.Lockout.MaxFailedAccessAttempts = 5;
             options.Lockout.AllowedForNewUsers = true;
         })
-        .AddRoles<IdentityRole<Guid>>() // Configuração de Cargos/Papéis no Identity
-        .AddEntityFrameworkStores<ControleDeBarDbContext>() // Integração com EntityFramework
-        .AddSignInManager() // Configuração do SignInManager
+        .AddRoles<IdentityRole<Guid>>()
+        .AddEntityFrameworkStores<ControleDeBarDbContext>()
+        .AddSignInManager()
         .AddDefaultTokenProviders();
 
         // Configura os repositórios
-        // services.AddScoped<IRepositorioEntidade, RepositorioEntidadeEmOrm>();
+        services.AddScoped<IRepositorioMesa, RepositorioMesa>();
+        // services.AddScoped<IRepositorioGarcom, RepositorioGarcom>();
+        // services.AddScoped<IRepositorioProduto, RepositorioProduto>();
+        // services.AddScoped<IRepositorioConta, RepositorioConta>();
+        // services.AddScoped<IRepositorioPedido, RepositorioPedido>();
     }
 }

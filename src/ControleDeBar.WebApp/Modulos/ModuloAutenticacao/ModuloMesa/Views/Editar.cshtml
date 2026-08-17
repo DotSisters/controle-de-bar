@@ -1,0 +1,29 @@
+@using ControleDeBar.Dominio.Modulos.ModuloMesa
+
+@{
+Layout = "_LayoutCrud";
+ViewBag.Titulo = "📝 Editar Mesa";
+@* ViewBag.Icone = "bi-pencil-square"; *@
+ViewBag.Info = "Atualize as informações da mesa selecionada.";
+}
+
+@model EditarMesaViewModel;
+
+<form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    <div class="mb-3">
+        <label asp-for="Identificacao" class="form-label">Identificação</label>
+        <input asp-for="Identificacao" class="form-control" />
+        <span asp-validation-for="Identificacao" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="QuantidadeLugar" class="form-label">Quantidade de Lugares</label>
+        <input asp-for="QuantidadeLugar" type="number" class="form-control" />
+        <span asp-validation-for="QuantidadeLugar" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-secondary rounded-2 px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-2 px-4" type="submit">Confirmar</button>
+    </div>
+</form>
