@@ -13,7 +13,7 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent" aria-hidden="true"></div>
         <div class="card-body">
-          <i class="bi bi-journal-bookmark fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <i class="bi bi-people-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Mesas</h3>
           <p class="card-text text-body-secondary mb-0">Cadastre e acompanhe as mesas do seu bar</p>
         </div>
@@ -25,9 +25,21 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent" aria-hidden="true"></div>
         <div class="card-body">
-          <i class="bi bi-tags fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <i class="bi bi-person-badge-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Garçons</h3>
           <p class="card-text text-body-secondary mb-0">Gerencie os garçons responsáveis pelos atendimentos</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <a asp-controller="Produto" asp-action="Listar"
+        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        <div class="card-accent" aria-hidden="true"></div>
+        <div class="card-body">
+          <i class="bi bi-basket-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <h3 class="h5 card-title fw-semibold mb-1">Produtos</h3>
+          <p class="card-text text-body-secondary mb-0">Cadastre, edite e gerencie os produtos do bar</p>
         </div>
       </a>
     </div>
@@ -37,7 +49,7 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent" aria-hidden="true"></div>
         <div class="card-body">
-          <i class="bi bi-people fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <i class="bi bi-receipt fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Contas</h3>
           <p class="card-text text-body-secondary mb-0">Abra, acompanhe e feche as contas dos clientes</p>
         </div>
@@ -49,7 +61,7 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent" aria-hidden="true"></div>
         <div class="card-body">
-          <i class="bi bi-mortarboard fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <i class="bi bi-clipboard-check-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Pedidos</h3>
           <p class="card-text text-body-secondary mb-0">Adicione e acompanhe os pedidos das contas</p>
         </div>
@@ -60,3 +72,4 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
       <img src="~/img/bar.png" alt="Ilustração do Controle de Bar" class="img-fluid home-visual-img" />
     </div>
   </div>
+</div>
