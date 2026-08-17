@@ -12,13 +12,13 @@ public class Mesa : EntidadeBase<Mesa>, IEntidadeDoUsuario
 
     public Mesa()
     {
-        StatusMesa = StatusMesa.Livre;
     }
 
     public Mesa(string identificacao, int quantidadeLugar) : this()
     {
         Identificacao = identificacao;
         QuantidadeLugar = quantidadeLugar;
+        StatusMesa = StatusMesa.Livre;
     }
 
     public override List<string> Validar()

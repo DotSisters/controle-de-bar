@@ -64,6 +64,7 @@ public static class InjecaoDeDependencia
         .AddDefaultTokenProviders();
 
         // Configura os repositórios
+        // services.AddScoped<IRepositorioEntidade, RepositorioEntidadeEmOrm>();
         services.AddScoped<IRepositorioMesa, RepositorioMesa>();
         // services.AddScoped<IRepositorioGarcom, RepositorioGarcom>();
         services.AddScoped<IRepositorioProduto, RepositorioProduto>();
