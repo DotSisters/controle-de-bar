@@ -1,5 +1,6 @@
 using System.Reflection;
 using ControleDeBar.Dominio.Compartilhado.Identity;
+using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ public sealed class ControleDeBarDbContext(
 ) : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>(options)
 {
     // Configuração de tabelas
-    // public DbSet<Entidade> Entidades => Set<Entidade>();
+    public DbSet<Mesa> Mesas => Set<Mesa>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +29,8 @@ public sealed class ControleDeBarDbContext(
         {
             // modelBuilder.Entity<Entidade>()
             //     .HasQueryFilter(e => e.UserId == userProvider.Id);
+            modelBuilder.Entity<Mesa>()
+                 .HasQueryFilter(m => m.UserId == userProvider.Id);
         }
     }
 
