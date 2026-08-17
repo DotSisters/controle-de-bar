@@ -16,7 +16,7 @@
 
   <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
-  <title>@ViewBag.Titulo Escola de Cursos</title>
+  <title>@ViewBag.Titulo Controle de Bar</title>
 </head>
 
 <body class="@ViewData[" BodyClass"]">
@@ -29,7 +29,7 @@
   <nav class="navbar navbar-expand-lg site-navbar">
     <div class="container">
       <a class="navbar-brand" asp-controller="Home" asp-action="@(User.Identity?.IsAuthenticated == true ? " Home"
-        : "Index" )">Escola de Cursos</a>
+        : "Index" )">Controle de Bar</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
         aria-controls="menuPrincipal" aria-expanded="false" aria-label="Toggle navigation">

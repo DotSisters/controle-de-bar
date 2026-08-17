@@ -237,7 +237,7 @@ body.page-mint::after {
 .card-accent {
   flex-shrink: 0;
   width: 0.35rem;
-  background-image: var(--brand-mint-gradient);
+  background-image: var(--brand-gradient);
 }
 
 .categoria-card-body {

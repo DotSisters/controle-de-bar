@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleDeBar.Infra.Compartilhado.Orm;
 
-public abstract class RepositorioBaseEmOrm<T>(ControleDeBarDbContext dbContext) where T : EntidadeBase<T>
+public abstract class RepositorioBase<T>(ControleDeBarDbContext dbContext) where T : EntidadeBase<T>
 {
     protected readonly DbSet<T> registros = dbContext.Set<T>();
 

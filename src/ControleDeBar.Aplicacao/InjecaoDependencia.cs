@@ -1,3 +1,5 @@
+using ControleDeBar.Aplicacao.Modulos.ModuloMesa;
+using ControleDeBar.Aplicacao.Modulos.ModuloProduto;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +14,7 @@ public static class InjecaoDeDependencia
     {
         services.AddScoped<ServicoMesa>();
         // services.AddScoped<ServicoGarcom>();
-        // services.AddScoped<ServicoProduto>();
+        services.AddScoped<ServicoProduto>();
         // services.AddScoped<ServicoConta>();
         // services.AddScoped<ServicoPedido>();
     }
