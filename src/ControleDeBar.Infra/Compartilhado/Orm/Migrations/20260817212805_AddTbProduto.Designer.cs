@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ControleDeBar.Infra.Migrations
+namespace ControleDeBar.Infra.Compartilhado.Orm.Migrations
 {
     [DbContext(typeof(ControleDeBarDbContext))]
-    [Migration("20260816205526_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260817212805_AddTbProduto")]
+    partial class AddTbProduto
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,12 +28,12 @@ namespace ControleDeBar.Infra.Migrations
             modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloMesa.Mesa", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Identificacao")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("QuantidadeLugar")
                         .HasColumnType("int");
@@ -44,9 +44,41 @@ namespace ControleDeBar.Infra.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("PK_TBMesa");
 
-                    b.ToTable("Mesas");
+                    b.HasIndex("UserId", "Identificacao")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_TBMesa_UserId_Identificacao");
+
+                    b.ToTable("TBMesa", (string)null);
+                });
+
+            modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloProduto.Produto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Valor")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id")
+                        .HasName("PK_TBProduto");
+
+                    b.HasIndex("UserId", "Nome")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_TBProduto_UserId_Nome");
+
+                    b.ToTable("TBProduto", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

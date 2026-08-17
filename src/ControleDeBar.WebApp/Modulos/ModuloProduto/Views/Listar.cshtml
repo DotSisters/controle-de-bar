@@ -36,30 +36,35 @@
             @foreach (ListarProdutosViewModel produto in Model)
             {
             <div class="col">
-                <div class="card h-100 shadow-sm d-flex flex-column overflow-hidden">
-                    <div class="card-header bg-light border-bottom">
-                        <h5 class="card-title fw-semibold text-dark mb-0">@produto.Nome</h5>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <dl class="row g-2 mb-4">
-                            <dt class="col-6 text-body-secondary fw-bold small">Valor:</dt>
-                            <dd class="col-6 mb-0">
-                                <i class="bi bi-currency-dollar text-primary"></i> @produto.Valor.ToString("C")
-                            </dd>
+                <div class="card h-100 shadow-sm d-flex flex-row overflow-hidden">
+                    <div class="card-accent" aria-hidden="true"></div>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <div class="card-header bg-light border-bottom">
+                            <h5 class="card-title fw-semibold text-dark mb-0">@produto.Nome</h5>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <dl class="row g-2 mb-4">
+                                <dt class="col-6 text-body-secondary fw-bold small">Valor:</dt>
+                                <dd class="col-6 mb-0">
+                                    <i class="bi bi-wallet-fill text-primary"></i> R$ @produto.Valor
+                                </dd>
 
-                            <dt class="col-12 text-body-secondary fw-bold small mt-2">ID:</dt>
-                            <dd class="col-12 mb-0 text-break font-monospace small text-muted">@produto.Id</dd>
-                        </dl>
+                                <dt class="col-6 text-body-secondary fw-bold small mt-2">ID:</dt>
+                                <dd class="col-6 mb-0 text-break font-monospace small text-muted">
+                                    @produto.Id.ToString().Substring(0,7)</dd>
 
-                        <div class="d-flex flex-wrap gap-2 mt-auto justify-content-between">
-                            <a asp-action="Editar" asp-route-id="@produto.Id" class="btn btn-sm btn-success"
-                                title="Editar produto">
-                                <i class="bi bi-pencil-square"></i> Editar
-                            </a>
-                            <a asp-action="Excluir" asp-route-id="@produto.Id" class="btn btn-sm btn-danger"
-                                title="Excluir produto">
-                                <i class="bi bi-trash"></i> Excluir
-                            </a>
+                            </dl>
+
+                            <div class="d-flex flex-wrap gap-2 mt-auto justify-content-between">
+                                <a asp-action="Editar" asp-route-id="@produto.Id" class="btn btn-sm btn-success"
+                                    title="Editar produto">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a asp-action="Excluir" asp-route-id="@produto.Id" class="btn btn-sm btn-danger"
+                                    title="Excluir produto">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

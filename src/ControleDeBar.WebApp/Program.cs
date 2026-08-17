@@ -32,14 +32,13 @@ if (app.Environment.IsDevelopment())
     dbContext.Database.Migrate();
 }
 
-// Middlewares de roteamento
+// Middlewares
+app.UseStaticFiles();
 app.UseRouting();
 
-// Middlewares de Auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Middleware de reconhecimento de rotas de controllers
 app.MapDefaultControllerRoute();
 
 // Execução do Servidor

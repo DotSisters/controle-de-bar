@@ -5,8 +5,7 @@ namespace ControleDeBar.WebApp.Modulos.ModuloProduto;
 public record ListarProdutosViewModel(
     Guid Id,
     string Nome,
-    decimal Valor,
-    Guid UserId
+    decimal Valor
 );
 
 public record CadastrarProdutoViewModel(
