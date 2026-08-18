@@ -1,4 +1,5 @@
 using ControleDeBar.Aplicacao.Compartilhado;
+using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloProduto;
 using FluentResults;
 
@@ -7,10 +8,15 @@ namespace ControleDeBar.Aplicacao.Modulos.ModuloProduto;
 public class ServicoProduto : ServicoBase<Produto>
 {
     private readonly IRepositorioProduto repositorioProduto;
+    private readonly IRepositorioItemPedido repositorioItemPedido;
 
-    public ServicoProduto(IRepositorioProduto repositorioProduto)
+    public ServicoProduto(
+        IRepositorioProduto repositorioProduto,
+        IRepositorioItemPedido repositorioItemPedido
+    )
     {
         this.repositorioProduto = repositorioProduto;
+        this.repositorioItemPedido = repositorioItemPedido;
     }
 
     public Result Cadastrar(CadastrarProdutoDto dto)
@@ -56,6 +62,9 @@ public class ServicoProduto : ServicoBase<Produto>
 
         if (produto == null)
             return Falha(string.Empty, "Produto não encontrado.");
+
+        if (repositorioItemPedido.ExistePorProduto(produto.Id))
+            return Falha(string.Empty, "Não é possível excluir este produto porque ele está vinculado a um ou mais itens de pedido.");
 
         repositorioProduto.Excluir(id);
 
