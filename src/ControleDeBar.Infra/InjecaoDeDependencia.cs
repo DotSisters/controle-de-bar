@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Microsoft.Extensions.Hosting;
 
 namespace ControleDeBar.Infra;
 
@@ -16,15 +17,16 @@ public static class InjecaoDeDependencia
     public static void AddInfraRepositories(
         this IServiceCollection services,
         IConfiguration configuration,
-        ILoggingBuilder logging
+        ILoggingBuilder logging,
+        IHostEnvironment environment
     )
     {
         // Injeta logs do Serilog
-        Log.Logger = SerilogFactory.Create(configuration);
+        Serilog.ILogger logger = SerilogFactory.Create(configuration, environment);
 
         logging.ClearProviders();
 
-        services.AddSerilog(Log.Logger);
+        services.AddSerilog(logger, dispose: true);
 
         // Injeta o DbContext do EF
         services.AddDbContext<ControleDeBarDbContext>(options =>
