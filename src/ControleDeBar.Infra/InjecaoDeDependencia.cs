@@ -1,3 +1,4 @@
+using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using ControleDeBar.Dominio.Modulos.ModuloProduto;
 using ControleDeBar.Infra.Compartilhado.Logging;
@@ -68,7 +69,7 @@ public static class InjecaoDeDependencia
         // Configura os repositórios
         // services.AddScoped<IRepositorioEntidade, RepositorioEntidadeEmOrm>();
         services.AddScoped<IRepositorioMesa, RepositorioMesa>();
-        // services.AddScoped<IRepositorioGarcom, RepositorioGarcom>();
+        services.AddScoped<IRepositorioGarcom, RepositorioGarcom>();
         services.AddScoped<IRepositorioProduto, RepositorioProduto>();
         // services.AddScoped<IRepositorioConta, RepositorioConta>();
         // services.AddScoped<IRepositorioPedido, RepositorioPedido>();
