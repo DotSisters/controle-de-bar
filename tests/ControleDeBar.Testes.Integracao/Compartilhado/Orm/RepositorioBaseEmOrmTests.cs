@@ -1,5 +1,5 @@
 using ControleDeBar.Infra.Compartilhado.Orm;
-
+using ControleDeBar.Testes.Integracao.Compartilhado.Identity;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +17,7 @@ public abstract class RepositorioBaseEmOrmTests
     [TestInitialize]
     public void InicializarContexto()
     {
-        dbContext = CriarDbContext();
+        dbContext = CriarDbContext(Guid.NewGuid());
 
         // Mesa
         // repositorioMesa = new RepositorioMesaEmOrm(dbContext);
@@ -76,13 +76,16 @@ public abstract class RepositorioBaseEmOrmTests
         dbContext.Dispose();
     }
 
-    private static ControleDeBarDbContext CriarDbContext()
+    private static ControleDeBarDbContext CriarDbContext(Guid userId)
     {
         DbContextOptions<ControleDeBarDbContext> options =
             new DbContextOptionsBuilder<ControleDeBarDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-        return new ControleDeBarDbContext(options);
+        return new ControleDeBarDbContext(
+              options,
+              new ProvedorDeUsuarioFake(userId)
+          );
     }
 }
