@@ -53,11 +53,6 @@ ViewBag.Info = "Visualize e adicione pedidos vinculados à conta selecionada.";
             }
             else
             {
-            <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
-                A persistência de pedidos ficará disponível após a implementação do módulo de Pedidos. O formulário
-                abaixo já está preparado para essa integração.
-            </div>
-
             <form asp-action="AdicionarPedido" method="post">
                 <input type="hidden" asp-for="ContaId" />
                 <input type="hidden" asp-for="NomeCliente" />
@@ -68,7 +63,7 @@ ViewBag.Info = "Visualize e adicione pedidos vinculados à conta selecionada.";
 
                 <div class="mb-3">
                     <label asp-for="ProdutoId" class="form-label fw-semibold text-primary text-uppercase small">Produto</label>
-                    <select asp-for="ProdutoId" asp-items="Model.Produtos" class="form-select" disabled>
+                    <select asp-for="ProdutoId" asp-items="Model.Produtos" class="form-select">
                         <option value="">Selecione um produto</option>
                     </select>
                     <span asp-validation-for="ProdutoId" class="text-danger small fw-semibold"></span>
@@ -77,11 +72,11 @@ ViewBag.Info = "Visualize e adicione pedidos vinculados à conta selecionada.";
                 <div class="mb-3">
                     <label asp-for="Quantidade"
                         class="form-label fw-semibold text-primary text-uppercase small">Quantidade</label>
-                    <input asp-for="Quantidade" type="number" min="1" class="form-control" disabled />
+                    <input asp-for="Quantidade" type="number" min="1" class="form-control" />
                     <span asp-validation-for="Quantidade" class="text-danger small fw-semibold"></span>
                 </div>
 
-                <button class="btn btn-primary rounded-2 px-4" type="submit" disabled>Adicionar Pedido</button>
+                <button class="btn btn-primary rounded-2 px-4" type="submit">Adicionar Pedido</button>
             </form>
             }
         </div>
@@ -108,6 +103,10 @@ ViewBag.Info = "Visualize e adicione pedidos vinculados à conta selecionada.";
                             <th>Quantidade</th>
                             <th>Valor unitário</th>
                             <th>Total do item</th>
+                            @if (Model.Situacao == SituacaoConta.Aberta)
+                            {
+                            <th>Ações</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -118,6 +117,29 @@ ViewBag.Info = "Visualize e adicione pedidos vinculados à conta selecionada.";
                             <td>@pedido.Quantidade</td>
                             <td>R$ @pedido.ValorUnitario.ToString("F2")</td>
                             <td>R$ @pedido.ValorTotal.ToString("F2")</td>
+                            @if (Model.Situacao == SituacaoConta.Aberta)
+                            {
+                            <td>
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <form asp-action="AlterarQuantidadeItemPedido" method="post" class="d-flex align-items-center gap-2">
+                                        <input type="hidden" name="contaId" value="@Model.ContaId" />
+                                        <input type="hidden" name="itemPedidoId" value="@pedido.Id" />
+                                        <input type="number" name="quantidade" value="@pedido.Quantidade" min="1"
+                                            class="form-control form-control-sm" style="max-width: 5.5rem;" />
+                                        <button class="btn btn-sm btn-outline-primary" type="submit" title="Alterar quantidade">
+                                            Alterar
+                                        </button>
+                                    </form>
+                                    <form asp-action="RemoverItemPedido" method="post">
+                                        <input type="hidden" name="contaId" value="@Model.ContaId" />
+                                        <input type="hidden" name="itemPedidoId" value="@pedido.Id" />
+                                        <button class="btn btn-sm btn-outline-danger" type="submit" title="Remover item">
+                                            Remover
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                            }
                         </tr>
                         }
                     </tbody>

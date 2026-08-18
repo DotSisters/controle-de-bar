@@ -222,6 +222,51 @@ public class ContaController(
         return RedirectToAction(nameof(AdicionarPedidos), new { id = pedidosVm.ContaId });
     }
 
+    [HttpPost]
+    public ActionResult AlterarQuantidadeItemPedido(Guid contaId, Guid itemPedidoId, int quantidade)
+    {
+        Result resultado = servicoConta.AlterarQuantidadeItemPedido(
+            new AlterarQuantidadeItemPedidoDto(contaId, itemPedidoId, quantidade)
+        );
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+            return RedirecionarAposFalhaEmItem(contaId);
+        }
+
+        return RedirectToAction(nameof(AdicionarPedidos), new { id = contaId });
+    }
+
+    [HttpPost]
+    public ActionResult RemoverItemPedido(Guid contaId, Guid itemPedidoId)
+    {
+        Result resultado = servicoConta.RemoverItemPedido(
+            new RemoverItemPedidoDto(contaId, itemPedidoId)
+        );
+
+        if (resultado.IsFailed)
+        {
+            TempData.AddErrorMessage(resultado);
+            return RedirecionarAposFalhaEmItem(contaId);
+        }
+
+        return RedirectToAction(nameof(AdicionarPedidos), new { id = contaId });
+    }
+
+    private ActionResult RedirecionarAposFalhaEmItem(Guid contaId)
+    {
+        Result<DetalhesContaDto> resultadoConsulta = servicoConta.SelecionarPorId(contaId);
+
+        if (resultadoConsulta.IsFailed)
+            return RedirectToAction(nameof(Listar));
+
+        if (resultadoConsulta.Value.Situacao == SituacaoConta.Fechada)
+            return RedirectToAction(nameof(Gerenciar), new { id = contaId });
+
+        return RedirectToAction(nameof(AdicionarPedidos), new { id = contaId });
+    }
+
     private AdicionarPedidosContaViewModel CriarAdicionarPedidosViewModel(
         DetalhesContaDto detalhes,
         Guid? produtoId = null,

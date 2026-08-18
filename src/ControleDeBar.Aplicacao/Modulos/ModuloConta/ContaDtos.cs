@@ -35,10 +35,10 @@ public record DetalhesContaDto(
     DateTime DataAbertura,
     SituacaoConta Situacao,
     decimal ValorTotal,
-    IReadOnlyList<PedidoContaDto> Pedidos
+    IReadOnlyList<ItemPedidoContaDto> Pedidos
 );
 
-public record PedidoContaDto(
+public record ItemPedidoContaDto(
     Guid Id,
     string NomeProduto,
     int Quantidade,
@@ -50,4 +50,15 @@ public record AdicionarPedidoContaDto(
     Guid ContaId,
     Guid ProdutoId,
     int Quantidade
+);
+
+public record AlterarQuantidadeItemPedidoDto(
+    Guid ContaId,
+    Guid ItemPedidoId,
+    int Quantidade
+);
+
+public record RemoverItemPedidoDto(
+    Guid ContaId,
+    Guid ItemPedidoId
 );

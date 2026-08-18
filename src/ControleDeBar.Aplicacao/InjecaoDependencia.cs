@@ -18,6 +18,5 @@ public static class InjecaoDeDependencia
         services.AddScoped<ServicoGarcom>();
         services.AddScoped<ServicoProduto>();
         services.AddScoped<ServicoConta>();
-        // services.AddScoped<ServicoPedido>();
     }
 }

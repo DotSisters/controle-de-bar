@@ -13,6 +13,8 @@ public sealed class RepositorioConta(
         return registros
             .Include(c => c.Mesa)
             .Include(c => c.Garcom)
+            .Include(c => c.Itens)
+                .ThenInclude(i => i.Produto)
             .SingleOrDefault(c => c.Id == idSelecionado);
     }
 

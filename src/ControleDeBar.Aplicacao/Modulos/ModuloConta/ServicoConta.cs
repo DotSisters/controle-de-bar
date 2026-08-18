@@ -2,6 +2,7 @@ using ControleDeBar.Aplicacao.Compartilhado;
 using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
+using ControleDeBar.Dominio.Modulos.ModuloProduto;
 using FluentResults;
 
 namespace ControleDeBar.Aplicacao.Modulos.ModuloConta;
@@ -11,16 +12,22 @@ public class ServicoConta : ServicoBase<Conta>
     private readonly IRepositorioConta repositorioConta;
     private readonly IRepositorioMesa repositorioMesa;
     private readonly IRepositorioGarcom repositorioGarcom;
+    private readonly IRepositorioProduto repositorioProduto;
+    private readonly IRepositorioItemPedido repositorioItemPedido;
 
     public ServicoConta(
         IRepositorioConta repositorioConta,
         IRepositorioMesa repositorioMesa,
-        IRepositorioGarcom repositorioGarcom
+        IRepositorioGarcom repositorioGarcom,
+        IRepositorioProduto repositorioProduto,
+        IRepositorioItemPedido repositorioItemPedido
     )
     {
         this.repositorioConta = repositorioConta;
         this.repositorioMesa = repositorioMesa;
         this.repositorioGarcom = repositorioGarcom;
+        this.repositorioProduto = repositorioProduto;
+        this.repositorioItemPedido = repositorioItemPedido;
     }
 
     public Result Cadastrar(CadastrarContaDto dto)
@@ -145,12 +152,90 @@ public class ServicoConta : ServicoBase<Conta>
             return Falha(string.Empty, "Conta não encontrada.");
 
         if (conta.EstaFechada)
-            return Falha(string.Empty, "Não é possível adicionar pedidos a uma conta fechada.");
+            return Falha(string.Empty, "Não é possível adicionar itens de pedido a uma conta fechada.");
 
-        return Falha(
-            string.Empty,
-            "A inclusão de pedidos estará disponível após a implementação do módulo de Pedidos."
-        );
+        if (dto.ProdutoId == Guid.Empty)
+            return Falha(nameof(dto.ProdutoId), "O campo \"Produto\" deve ser preenchido.");
+
+        Produto? produto = repositorioProduto.SelecionarPorId(dto.ProdutoId);
+
+        if (produto == null)
+            return Falha(nameof(dto.ProdutoId), "Produto não encontrado.");
+
+        if (dto.Quantidade <= 0)
+            return Falha(nameof(dto.Quantidade), "O campo \"Quantidade\" deve ser maior que zero.");
+
+        ItemPedido novoItem = new ItemPedido(conta.Id, produto.Id, dto.Quantidade, produto.Valor);
+
+        Result resultadoValidacao = ValidarItemPedido(novoItem);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        conta.AdicionarItem(novoItem);
+        repositorioItemPedido.Cadastrar(novoItem);
+
+        return Result.Ok();
+    }
+
+    public Result AlterarQuantidadeItemPedido(AlterarQuantidadeItemPedidoDto dto)
+    {
+        Conta? conta = repositorioConta.SelecionarPorId(dto.ContaId);
+
+        if (conta == null)
+            return Falha(string.Empty, "Conta não encontrada.");
+
+        if (conta.EstaFechada)
+            return Falha(string.Empty, "Não é possível alterar a quantidade de um item de uma conta fechada.");
+
+        ItemPedido? item = conta.Itens.FirstOrDefault(i => i.Id == dto.ItemPedidoId);
+
+        if (item == null)
+            return Falha(string.Empty, "Item de pedido não encontrado.");
+
+        if (dto.Quantidade <= 0)
+            return Falha(nameof(dto.Quantidade), "O campo \"Quantidade\" deve ser maior que zero.");
+
+        item.AlterarQuantidade(dto.Quantidade);
+
+        Result resultadoValidacao = ValidarItemPedido(item);
+
+        if (resultadoValidacao.IsFailed)
+            return resultadoValidacao;
+
+        conta.RecalcularValorTotal();
+
+        bool conseguiuEditar = repositorioItemPedido.Editar(item.Id, item);
+
+        if (!conseguiuEditar)
+            return Falha(string.Empty, "Item de pedido não encontrado.");
+
+        return Result.Ok();
+    }
+
+    public Result RemoverItemPedido(RemoverItemPedidoDto dto)
+    {
+        Conta? conta = repositorioConta.SelecionarPorId(dto.ContaId);
+
+        if (conta == null)
+            return Falha(string.Empty, "Conta não encontrada.");
+
+        if (conta.EstaFechada)
+            return Falha(string.Empty, "Não é possível remover itens de uma conta fechada.");
+
+        ItemPedido? item = conta.Itens.FirstOrDefault(i => i.Id == dto.ItemPedidoId);
+
+        if (item == null)
+            return Falha(string.Empty, "Item de pedido não encontrado.");
+
+        conta.RecalcularValorTotal(conta.Itens.Where(i => i.Id != item.Id).Select(i => i.Valor));
+
+        bool conseguiuExcluir = repositorioItemPedido.Excluir(item.Id);
+
+        if (!conseguiuExcluir)
+            return Falha(string.Empty, "Item de pedido não encontrado.");
+
+        return Result.Ok();
     }
 
     public List<ListarContasDto> SelecionarTodos()
@@ -169,6 +254,16 @@ public class ServicoConta : ServicoBase<Conta>
             return Result.Fail("Conta não encontrada.");
 
         return Result.Ok(MapearParaDetalhesDto(conta));
+    }
+
+    private static Result ValidarItemPedido(ItemPedido item)
+    {
+        List<string> erros = item.Validar();
+
+        if (erros.Count == 0)
+            return Result.Ok();
+
+        return Falha(string.Empty, erros.First());
     }
 
     private static ListarContasDto MapearParaListarDto(Conta conta)
@@ -196,7 +291,15 @@ public class ServicoConta : ServicoBase<Conta>
             conta.DataAbertura,
             conta.Situacao,
             conta.ValorTotal,
-            []
+            conta.Itens
+                .Select(i => new ItemPedidoContaDto(
+                    i.Id,
+                    i.Produto?.Nome ?? string.Empty,
+                    i.Quantidade,
+                    i.ValorUnitario,
+                    i.Valor
+                ))
+                .ToList()
         );
     }
 }

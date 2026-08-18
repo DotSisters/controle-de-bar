@@ -20,6 +20,7 @@ public sealed class ControleDeBarDbContext(
     public DbSet<Garcom> Garcons => Set<Garcom>();
     public DbSet<Produto> Produtos => Set<Produto>();
     public DbSet<Conta> Contas => Set<Conta>();
+    public DbSet<ItemPedido> ItensPedido => Set<ItemPedido>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +44,8 @@ public sealed class ControleDeBarDbContext(
                  .HasQueryFilter(p => p.UserId == userProvider.Id);
             modelBuilder.Entity<Conta>()
                  .HasQueryFilter(c => c.UserId == userProvider.Id);
+            modelBuilder.Entity<ItemPedido>()
+                 .HasQueryFilter(i => i.Conta!.UserId == userProvider.Id);
         }
     }
 

@@ -74,6 +74,6 @@ public static class InjecaoDeDependencia
         services.AddScoped<IRepositorioGarcom, RepositorioGarcom>();
         services.AddScoped<IRepositorioProduto, RepositorioProduto>();
         services.AddScoped<IRepositorioConta, RepositorioConta>();
-        // services.AddScoped<IRepositorioPedido, RepositorioPedido>();
+        services.AddScoped<IRepositorioItemPedido, RepositorioItemPedido>();
     }
 }

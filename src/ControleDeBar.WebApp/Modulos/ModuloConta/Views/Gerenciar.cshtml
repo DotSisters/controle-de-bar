@@ -56,21 +56,14 @@ ViewBag.Info = "Consulte os detalhes da conta, visualize os pedidos e encerre o 
     </div>
 
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <div class="card-header bg-light">
             <h5 class="mb-0 fw-semibold">Pedidos da conta</h5>
-            @if (Model.Situacao == SituacaoConta.Aberta)
-            {
-            <a asp-action="AdicionarPedidos" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
-                Adicionar Pedidos
-            </a>
-            }
         </div>
         <div class="card-body">
             @if (Model.Pedidos.Count == 0)
             {
             <div class="alert alert-primary border-start border-primary border-4 rounded-3 mb-0" role="alert">
-                Nenhum pedido vinculado a esta conta. A listagem será preenchida após a implementação do módulo de
-                Pedidos.
+                Nenhum pedido vinculado a esta conta.
             </div>
             }
             else

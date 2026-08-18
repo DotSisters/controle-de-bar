@@ -13,6 +13,6 @@ public class ContaProfile : Profile
         CreateMap<DetalhesContaDto, EditarContaViewModel>();
         CreateMap<DetalhesContaDto, ExcluirContaViewModel>();
         CreateMap<DetalhesContaDto, GerenciarContaViewModel>();
-        CreateMap<PedidoContaDto, PedidoContaViewModel>();
+        CreateMap<ItemPedidoContaDto, PedidoContaViewModel>();
     }
 }

@@ -15,6 +15,7 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     public DateTime DataAbertura { get; private set; }
     public SituacaoConta Situacao { get; private set; }
     public decimal ValorTotal { get; private set; }
+    public List<ItemPedido> Itens { get; set; } = [];
     public Guid UserId { get; set; }
 
     public bool EstaAberta => Situacao == SituacaoConta.Aberta;
@@ -72,13 +73,24 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
         Situacao = SituacaoConta.Fechada;
     }
 
+    public void AdicionarItem(ItemPedido item)
+    {
+        Itens.Add(item);
+        RecalcularValorTotal();
+    }
+
     public void AtualizarValorTotal(decimal valorTotal)
     {
         ValorTotal = valorTotal;
     }
 
-    public void RecalcularValorTotal(IEnumerable<decimal> valoresDosPedidos)
+    public void RecalcularValorTotal()
     {
-        ValorTotal = valoresDosPedidos.Sum();
+        ValorTotal = Itens.Sum(i => i.Valor);
+    }
+
+    public void RecalcularValorTotal(IEnumerable<decimal> valoresDosItens)
+    {
+        ValorTotal = valoresDosItens.Sum();
     }
 }
