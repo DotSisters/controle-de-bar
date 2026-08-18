@@ -1,6 +1,15 @@
 @{
   Layout = "_Layout";
+  var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
 }
-<div class="crud-panel">
+
+@if (currentAction == "Listar")
+{
   @RenderBody()
-</div>
+}
+else
+{
+  <div class="crud-panel">
+    @RenderBody()
+  </div>
+}
