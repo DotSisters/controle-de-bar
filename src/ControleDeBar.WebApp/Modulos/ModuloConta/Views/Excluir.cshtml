@@ -1,0 +1,55 @@
+﻿@using ControleDeBar.Dominio.Modulos.ModuloConta
+@model ExcluirContaViewModel
+@{
+  Layout = "_LayoutCrud";
+  ViewBag.Titulo = "🗑️ Excluir Conta";
+  @* ViewBag.Icone = "bi-trash-fill"; *@
+  ViewBag.Info = "Confirme a exclusão desta conta.";
+}
+
+<form asp-action="Excluir" asp-route-id="@Model.Id" method="post">
+    <div class="alert alert-warning border-start border-primary border-1 rounded-3" role="alert">
+        Deseja realmente excluir esta conta?
+    </div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="NomeCliente" class="form-label fw-semibold text-primary text-uppercase small">Nome do
+            Cliente</label>
+        <input asp-for="NomeCliente" type="text" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdentificacaoMesa" class="form-label fw-semibold text-primary text-uppercase small">Mesa</label>
+        <input asp-for="IdentificacaoMesa" type="text" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NomeGarcom" class="form-label fw-semibold text-primary text-uppercase small">Garçom</label>
+        <input asp-for="NomeGarcom" type="text" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DataAbertura" class="form-label fw-semibold text-primary text-uppercase small">Data de
+            Abertura</label>
+        <input value="@Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")" type="text" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Situacao" class="form-label fw-semibold text-primary text-uppercase small">Situação</label>
+        <input value="@(Model.Situacao == SituacaoConta.Aberta ? "Aberta" : "Fechada")" type="text" class="form-control"
+            disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ValorTotal" class="form-label fw-semibold text-primary text-uppercase small">Valor
+            Total</label>
+        <input value="R$ @Model.ValorTotal.ToString("F2")" type="text" class="form-control" disabled />
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-secondary rounded-2 px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-2 px-4" type="submit">Confirmar</button>
+    </div>
+</form>

@@ -1,0 +1,39 @@
+﻿@{
+Layout = "_LayoutCrud";
+ViewBag.Titulo = "📝 Editar Conta";
+@* ViewBag.Icone = "bi-pencil-square"; *@
+ViewBag.Info = "Atualize as informações da conta selecionada.";
+}
+
+@model EditarContaViewModel;
+
+<form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="NomeCliente" class="form-label">Nome do Cliente</label>
+        <input asp-for="NomeCliente" class="form-control" />
+        <span asp-validation-for="NomeCliente" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MesaId" class="form-label">Mesa</label>
+        <select asp-for="MesaId" asp-items="Model.Mesas" class="form-select">
+            <option value="">Selecione uma mesa</option>
+        </select>
+        <span asp-validation-for="MesaId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GarcomId" class="form-label">Garçom</label>
+        <select asp-for="GarcomId" asp-items="Model.Garcons" class="form-select">
+            <option value="">Selecione um garçom</option>
+        </select>
+        <span asp-validation-for="GarcomId" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-secondary rounded-2 px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-2 px-4" type="submit">Confirmar</button>
+    </div>
+</form>
