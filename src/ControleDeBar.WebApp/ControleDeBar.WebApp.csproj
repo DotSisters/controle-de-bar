@@ -22,4 +22,9 @@
     <ProjectReference Include="..\ControleDeBar.Infra\ControleDeBar.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modulos/ModuloGarcom/" />
+    <Folder Include="Modulos/ModuloGarcom/Views/" />
+  </ItemGroup>
+
 </Project>
