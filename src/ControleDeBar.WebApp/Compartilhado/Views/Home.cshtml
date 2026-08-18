@@ -1,17 +1,43 @@
 @{
-Layout = "_Layout";
-ViewData["BodyClass"] = "page-fit";
-ViewBag.Titulo = "🏠 Bem vindo!";
-@* ViewBag.Icone = "bi-house-door-fill"; *@
-ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em um só lugar";
+  Layout = "_Layout";
+  ViewData["BodyClass"] = "page-fit";
+  ViewBag.Titulo = "🏠 Bem vindo!";
+  @* ViewBag.Icone = "bi-house-door-fill"; *@
+  ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em um só lugar";
 }
 
 <div class="d-flex flex-column gap-3">
   <div class="row g-3">
+
+    <div class="col-md-6 col-lg-4">
+      <a asp-controller="Conta" asp-action="Listar"
+         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        <div class="card-accent-mint" aria-hidden="true"></div>
+        <div class="card-body">
+          <i class="bi bi-receipt fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <h3 class="h5 card-title fw-semibold mb-1">Contas</h3>
+          <p class="card-text text-body-secondary mb-0">Abra, acompanhe e feche as contas dos clientes</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <a asp-controller="Produto" asp-action="Listar"
+         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        <div class="card-accent-mint" aria-hidden="true"></div>
+        <div class="card-body">
+          <i class="bi bi-basket-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
+          <h3 class="h5 card-title fw-semibold mb-1">Produtos</h3>
+          <p class="card-text text-body-secondary mb-0">Cadastre, edite e gerencie os produtos do bar</p>
+        </div>
+      </a>
+    </div>
+
+
     <div class="col-md-6 col-lg-4">
       <a asp-controller="Mesa" asp-action="Listar"
-        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
-        <div class="card-accent" aria-hidden="true"></div>
+         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-people-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Mesas</h3>
@@ -22,54 +48,14 @@ ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em
 
     <div class="col-md-6 col-lg-4">
       <a asp-controller="Garcom" asp-action="Listar"
-        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
-        <div class="card-accent" aria-hidden="true"></div>
+         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-person-badge-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
           <h3 class="h5 card-title fw-semibold mb-1">Garçons</h3>
           <p class="card-text text-body-secondary mb-0">Gerencie os garçons responsáveis pelos atendimentos</p>
         </div>
       </a>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <a asp-controller="Produto" asp-action="Listar"
-        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
-        <div class="card-accent" aria-hidden="true"></div>
-        <div class="card-body">
-          <i class="bi bi-basket-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
-          <h3 class="h5 card-title fw-semibold mb-1">Produtos</h3>
-          <p class="card-text text-body-secondary mb-0">Cadastre, edite e gerencie os produtos do bar</p>
-        </div>
-      </a>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <a asp-controller="Conta" asp-action="Listar"
-        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
-        <div class="card-accent" aria-hidden="true"></div>
-        <div class="card-body">
-          <i class="bi bi-receipt fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
-          <h3 class="h5 card-title fw-semibold mb-1">Contas</h3>
-          <p class="card-text text-body-secondary mb-0">Abra, acompanhe e feche as contas dos clientes</p>
-        </div>
-      </a>
-    </div>
-
-    <div class="col-md-6 col-lg-4">
-      <a asp-controller="Pedido" asp-action="Listar"
-        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
-        <div class="card-accent" aria-hidden="true"></div>
-        <div class="card-body">
-          <i class="bi bi-clipboard-check-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
-          <h3 class="h5 card-title fw-semibold mb-1">Pedidos</h3>
-          <p class="card-text text-body-secondary mb-0">Adicione e acompanhe os pedidos das contas</p>
-        </div>
-      </a>
-    </div>
-
-    <div class="home-visual text-center">
-      <img src="~/img/bar.png" alt="Ilustração do Controle de Bar" class="img-fluid home-visual-img" />
     </div>
   </div>
 </div>

@@ -240,6 +240,12 @@ body.page-mint::after {
   background-image: var(--brand-gradient);
 }
 
+.card-accent-mint {
+  flex-shrink: 0;
+  width: 0.35rem;
+  background-image: var(--brand-mint-gradient);
+}
+
 .categoria-card-body {
   display: flex;
   flex: 1;
