@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Modulos/ModuloConta/" />
     <Folder Include="Modulos/ModuloGarcom/" />
   </ItemGroup>
 
