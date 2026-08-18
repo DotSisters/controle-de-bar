@@ -23,8 +23,7 @@ public class ProdutoController(ServicoProduto servicoProduto, IMapper mapeador) 
     {
         CadastrarProdutoViewModel cadastrarVm = new CadastrarProdutoViewModel(
             string.Empty,
-            0,
-            Guid.Empty
+            0
         );
 
         return View(cadastrarVm);

@@ -4,6 +4,7 @@ using ControleDeBar.Infra.Compartilhado.Orm;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleDeBar.Infra.Compartilhado.Orm.Migrations
 {
     [DbContext(typeof(ControleDeBarDbContext))]
-    partial class ControleDeBarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260818213547_AddTbConta")]
+    partial class AddTbConta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,38 +62,6 @@ namespace ControleDeBar.Infra.Compartilhado.Orm.Migrations
                     b.HasIndex("MesaId");
 
                     b.ToTable("TBConta", (string)null);
-                });
-
-            modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloConta.ItemPedido", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ContaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Valor")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("ValorUnitario")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id")
-                        .HasName("PK_TBItemPedido");
-
-                    b.HasIndex("ContaId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("TBItemPedido", (string)null);
                 });
 
             modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloGarcom.Garcom", b =>
@@ -402,25 +373,6 @@ namespace ControleDeBar.Infra.Compartilhado.Orm.Migrations
                     b.Navigation("Mesa");
                 });
 
-            modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloConta.ItemPedido", b =>
-                {
-                    b.HasOne("ControleDeBar.Dominio.Modulos.ModuloConta.Conta", "Conta")
-                        .WithMany("Itens")
-                        .HasForeignKey("ContaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ControleDeBar.Dominio.Modulos.ModuloProduto.Produto", "Produto")
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Conta");
-
-                    b.Navigation("Produto");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -470,11 +422,6 @@ namespace ControleDeBar.Infra.Compartilhado.Orm.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ControleDeBar.Dominio.Modulos.ModuloConta.Conta", b =>
-                {
-                    b.Navigation("Itens");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,9 +15,7 @@ public record CadastrarProdutoViewModel(
 
     [Required(ErrorMessage = "O campo \"Valor\" deve ser preenchido.")]
     [Range(0.01, 99999.99, ErrorMessage = "O campo \"Valor\" deve ser maior que zero.")]
-    decimal Valor,
-
-    Guid UserId
+    decimal Valor
 );
 
 public record EditarProdutoViewModel(
@@ -29,14 +27,11 @@ public record EditarProdutoViewModel(
 
     [Required(ErrorMessage = "O campo \"Valor\" deve ser preenchido.")]
     [Range(0.01, 99999.99, ErrorMessage = "O campo \"Valor\" deve ser maior que zero.")]
-    decimal Valor,
-
-    Guid UserId
+    decimal Valor
 );
 
 public record ExcluirProdutoViewModel(
     Guid Id,
     string Nome,
-    decimal Valor,
-    Guid UserId
+    decimal Valor
 );

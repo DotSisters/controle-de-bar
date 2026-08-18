@@ -1,0 +1,107 @@
+@using ControleDeBar.Dominio.Modulos.ModuloConta
+@model GerenciarContaViewModel
+@{
+Layout = "_LayoutCrud";
+ViewBag.Titulo = "🧾 Gerenciar Conta";
+ViewBag.Info = "Consulte os detalhes da conta, visualize os pedidos e encerre o atendimento.";
+}
+
+<div class="listar-conteudo">
+    @if (TempData["MensagemErro"] is string mensagemErro)
+    {
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+    }
+
+    @if (TempData["MensagemSucesso"] is string mensagemSucesso)
+    {
+    <div class="alert alert-success border-start border-success border-4 rounded-3" role="alert">
+        @mensagemSucesso
+    </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <div class="d-flex justify-content-between align-items-center gap-2">
+                <h5 class="mb-0 fw-semibold">@Model.NomeCliente</h5>
+                @if (Model.Situacao == SituacaoConta.Aberta)
+                {
+                <span class="badge text-bg-success rounded-pill">Aberta</span>
+                }
+                else
+                {
+                <span class="badge text-bg-secondary rounded-pill">Fechada</span>
+                }
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row g-2 mb-0">
+                <dt class="col-sm-4 text-body-secondary fw-bold small">Mesa</dt>
+                <dd class="col-sm-8 mb-0">@Model.IdentificacaoMesa</dd>
+
+                <dt class="col-sm-4 text-body-secondary fw-bold small">Garçom</dt>
+                <dd class="col-sm-8 mb-0">@Model.NomeGarcom</dd>
+
+                <dt class="col-sm-4 text-body-secondary fw-bold small">Data de Abertura</dt>
+                <dd class="col-sm-8 mb-0">@Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-4 text-body-secondary fw-bold small">Situação</dt>
+                <dd class="col-sm-8 mb-0">@(Model.Situacao == SituacaoConta.Aberta ? "Aberta" : "Fechada")</dd>
+
+                <dt class="col-sm-4 text-body-secondary fw-bold small">Valor Total</dt>
+                <dd class="col-sm-8 mb-0 fw-semibold">R$ @Model.ValorTotal.ToString("F2")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0 fw-semibold">Pedidos da conta</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Pedidos.Count == 0)
+            {
+            <div class="alert alert-primary border-start border-primary border-4 rounded-3 mb-0" role="alert">
+                Nenhum pedido vinculado a esta conta.
+            </div>
+            }
+            else
+            {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor unitário</th>
+                            <th>Total do item</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (PedidoContaViewModel pedido in Model.Pedidos)
+                        {
+                        <tr>
+                            <td>@pedido.NomeProduto</td>
+                            <td>@pedido.Quantidade</td>
+                            <td>R$ @pedido.ValorUnitario.ToString("F2")</td>
+                            <td>R$ @pedido.ValorTotal.ToString("F2")</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-secondary rounded-2 px-4" asp-action="Listar">Voltar</a>
+        @if (Model.Situacao == SituacaoConta.Aberta)
+        {
+        <form asp-action="Fechar" asp-route-id="@Model.Id" method="post">
+            <button class="btn btn-warning rounded-2 px-4" type="submit">Fechar Conta</button>
+        </form>
+        }
+    </div>
+</div>
