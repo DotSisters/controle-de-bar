@@ -1,4 +1,5 @@
 using ControleDeBar.Aplicacao.Compartilhado;
+using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using FluentResults;
 
@@ -7,10 +8,12 @@ namespace ControleDeBar.Aplicacao.Modulos.ModuloGarcom;
 public class ServicoGarcom : ServicoBase<Garcom>
 {
     private readonly IRepositorioGarcom repositorioGarcom;
+    private readonly IRepositorioConta repositorioConta;
 
-    public ServicoGarcom(IRepositorioGarcom repositorioGarcom)
+    public ServicoGarcom(IRepositorioGarcom repositorioGarcom, IRepositorioConta repositorioConta)
     {
         this.repositorioGarcom = repositorioGarcom;
+        this.repositorioConta = repositorioConta;
     }
 
     public Result Cadastrar(CadastrarGarcomDto dto)
@@ -64,7 +67,7 @@ public class ServicoGarcom : ServicoBase<Garcom>
             return Falha(string.Empty, "Garçom não encontrado.");
 
         if (PossuiVinculoComContaEmAberto(garcom.Id))
-            return Falha(string.Empty, "Não é possível excluir um garçom vinculado a uma conta em aberto.");
+            return Falha(string.Empty, "Não é possível excluir este garçom porque ele está vinculado a uma conta em aberto.");
 
         repositorioGarcom.Excluir(id);
 
@@ -99,9 +102,9 @@ public class ServicoGarcom : ServicoBase<Garcom>
         ));
     }
 
-    private static bool PossuiVinculoComContaEmAberto(Guid garcomId)
+    private bool PossuiVinculoComContaEmAberto(Guid garcomId)
     {
-        return false;
+        return repositorioConta.ExisteContaAbertaPorGarcom(garcomId);
     }
 
     private bool ExisteGarcomComMesmoCpf(string cpf, Guid? idIgnorado = null)

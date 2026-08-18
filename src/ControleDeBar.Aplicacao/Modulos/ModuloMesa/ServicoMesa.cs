@@ -1,4 +1,5 @@
 using ControleDeBar.Aplicacao.Compartilhado;
+using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using FluentResults;
 
@@ -7,10 +8,12 @@ namespace ControleDeBar.Aplicacao.Modulos.ModuloMesa;
 public class ServicoMesa : ServicoBase<Mesa>
 {
     private readonly IRepositorioMesa repositorioMesa;
+    private readonly IRepositorioConta repositorioConta;
 
-    public ServicoMesa(IRepositorioMesa repositorioMesa)
+    public ServicoMesa(IRepositorioMesa repositorioMesa, IRepositorioConta repositorioConta)
     {
         this.repositorioMesa = repositorioMesa;
+        this.repositorioConta = repositorioConta;
     }
 
     public Result Cadastrar(CadastrarMesaDto dto)
@@ -64,6 +67,9 @@ public class ServicoMesa : ServicoBase<Mesa>
 
         if (mesa == null)
             return Falha(string.Empty, "Mesa não encontrada.");
+
+        if (repositorioConta.ExisteContaAbertaPorMesa(mesa.Id))
+            return Falha(string.Empty, "Não é possível excluir esta mesa porque ela está vinculada a uma conta em aberto.");
 
         repositorioMesa.Excluir(id);
 
