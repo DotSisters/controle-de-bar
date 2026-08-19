@@ -42,11 +42,11 @@ public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
             erros.Add("O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.");
 
         if (string.IsNullOrWhiteSpace(Cpf))
-            erros.Add("O campo \"CPF\" deve ser preenchido.");
+            erros.Add("O campo \"Cpf\" deve ser preenchido.");
         else if (ExtrairDigitos(Cpf).Length != 11)
-            erros.Add("O campo \"CPF\" deve conter 11 dígitos.");
+            erros.Add("O campo \"Cpf\" deve conter 11 dígitos.");
         else if (!Regex.IsMatch(Cpf, PadraoCpf))
-            erros.Add("O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.");
+            erros.Add("O campo \"Cpf\" deve estar no formato XXX.XXX.XXX-XX.");
 
         return erros;
     }
