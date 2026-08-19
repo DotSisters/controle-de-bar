@@ -24,11 +24,11 @@ public sealed class GarcomConfiguration : IEntityTypeConfiguration<Garcom>
             .IsRequired();
 
         builder.Property(g => g.Telefone)
-            .HasMaxLength(11)
+            .HasMaxLength(15)
             .IsRequired();
 
         builder.Property(g => g.Cpf)
-            .HasMaxLength(11)
+            .HasMaxLength(14)
             .IsRequired();
 
         builder.HasIndex(g => new { g.UserId, g.Cpf })

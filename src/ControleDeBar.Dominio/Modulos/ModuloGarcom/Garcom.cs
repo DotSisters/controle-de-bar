@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using ControleDeBar.Dominio.Compartilhado;
 using ControleDeBar.Dominio.Compartilhado.Identity;
 
@@ -5,6 +6,9 @@ namespace ControleDeBar.Dominio.Modulos.ModuloGarcom;
 
 public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
 {
+    private const string PadraoTelefone = @"^\(\d{2}\) \d{4,5}-\d{4}$";
+    private const string PadraoCpf = @"^\d{3}\.\d{3}\.\d{3}-\d{2}$";
+
     public string Nome { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;
@@ -17,8 +21,8 @@ public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
     public Garcom(string nome, string telefone, string cpf) : this()
     {
         Nome = nome;
-        Telefone = NormalizarTelefone(telefone);
-        Cpf = NormalizarCpf(cpf);
+        Telefone = telefone;
+        Cpf = cpf;
     }
 
     public override List<string> Validar()
@@ -34,13 +38,15 @@ public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
 
         if (string.IsNullOrWhiteSpace(Telefone))
             erros.Add("O campo \"Telefone\" deve ser preenchido.");
-        else if (!EhTelefoneValido(Telefone))
-            erros.Add("O campo \"Telefone\" deve conter um formato válido.");
+        else if (!Regex.IsMatch(Telefone, PadraoTelefone))
+            erros.Add("O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.");
 
         if (string.IsNullOrWhiteSpace(Cpf))
             erros.Add("O campo \"CPF\" deve ser preenchido.");
-        else if (!EhCpfValido(Cpf))
+        else if (ExtrairDigitos(Cpf).Length != 11)
             erros.Add("O campo \"CPF\" deve conter 11 dígitos.");
+        else if (!Regex.IsMatch(Cpf, PadraoCpf))
+            erros.Add("O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.");
 
         return erros;
     }
@@ -48,18 +54,8 @@ public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
     public override void Atualizar(Garcom entidadeAtualizada)
     {
         Nome = entidadeAtualizada.Nome;
-        Telefone = NormalizarTelefone(entidadeAtualizada.Telefone);
-        Cpf = NormalizarCpf(entidadeAtualizada.Cpf);
-    }
-
-    private static string NormalizarTelefone(string telefone)
-    {
-        return ExtrairDigitos(telefone);
-    }
-
-    private static string NormalizarCpf(string cpf)
-    {
-        return ExtrairDigitos(cpf);
+        Telefone = entidadeAtualizada.Telefone;
+        Cpf = entidadeAtualizada.Cpf;
     }
 
     private static string ExtrairDigitos(string? valor)
@@ -68,43 +64,5 @@ public class Garcom : EntidadeBase<Garcom>, IEntidadeDoUsuario
             return string.Empty;
 
         return new string(valor.Where(char.IsDigit).ToArray());
-    }
-
-    private static bool EhTelefoneValido(string telefone)
-    {
-        if (telefone.Any(char.IsLetter))
-            return false;
-
-        if (telefone.Any(c => !char.IsDigit(c) && !EhPontuacaoTelefone(c)))
-            return false;
-
-        string digitos = ExtrairDigitos(telefone);
-
-        if (digitos.Length is not (10 or 11))
-            return false;
-
-        if (digitos[0] == '0')
-            return false;
-
-        if (digitos.Length == 11 && digitos[2] != '9')
-            return false;
-
-        return true;
-    }
-
-    private static bool EhCpfValido(string cpf)
-    {
-        if (cpf.Any(char.IsLetter))
-            return false;
-
-        if (cpf.Any(c => !char.IsDigit(c) && c is not ('.' or '-')))
-            return false;
-
-        return ExtrairDigitos(cpf).Length == 11;
-    }
-
-    private static bool EhPontuacaoTelefone(char caractere)
-    {
-        return caractere is ' ' or '(' or ')' or '-' or '.';
     }
 }

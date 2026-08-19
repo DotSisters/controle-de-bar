@@ -15,11 +15,11 @@ public record CadastrarGarcomViewModel(
     string Nome,
 
     [Required(ErrorMessage = "O campo \"Telefone\" deve ser preenchido.")]
-    [RegularExpression(@"^\(?\d{2}\)?[\s.-]?9?\d{4}[\s.-]?\d{4}$", ErrorMessage = "O campo \"Telefone\" deve conter um formato válido.")]
+    [RegularExpression(@"^\(\d{2}\) \d{4,5}-\d{4}$", ErrorMessage = "O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.")]
     string Telefone,
 
     [Required(ErrorMessage = "O campo \"CPF\" deve ser preenchido.")]
-    [RegularExpression(@"^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$", ErrorMessage = "O campo \"CPF\" deve conter 11 dígitos.")]
+    [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.")]
     string Cpf
 );
 
@@ -31,11 +31,11 @@ public record EditarGarcomViewModel(
     string Nome,
 
     [Required(ErrorMessage = "O campo \"Telefone\" deve ser preenchido.")]
-    [RegularExpression(@"^\(?\d{2}\)?[\s.-]?9?\d{4}[\s.-]?\d{4}$", ErrorMessage = "O campo \"Telefone\" deve conter um formato válido.")]
+    [RegularExpression(@"^\(\d{2}\) \d{4,5}-\d{4}$", ErrorMessage = "O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.")]
     string Telefone,
 
     [Required(ErrorMessage = "O campo \"CPF\" deve ser preenchido.")]
-    [RegularExpression(@"^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$", ErrorMessage = "O campo \"CPF\" deve conter 11 dígitos.")]
+    [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.")]
     string Cpf
 );
 
