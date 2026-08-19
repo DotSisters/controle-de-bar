@@ -30,7 +30,7 @@ public record DetalhesContaDto(
     string NomeCliente,
     Guid MesaId,
     string IdentificacaoMesa,
-    Guid GarcomId,
+    Guid? GarcomId,
     string NomeGarcom,
     DateTime DataAbertura,
     SituacaoConta Situacao,

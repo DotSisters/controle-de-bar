@@ -45,7 +45,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (garcom == null)
             return Falha(nameof(dto.GarcomId), "Garçom não encontrado.");
 
-        Conta novaConta = new Conta(dto.NomeCliente, mesa.Id, garcom.Id);
+        Conta novaConta = new Conta(dto.NomeCliente, mesa.Id, garcom.Id, garcom.Nome);
 
         Result resultadoValidacao = ValidarEntidade(novaConta);
 
@@ -78,7 +78,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (garcom == null)
             return Falha(nameof(dto.GarcomId), "Garçom não encontrado.");
 
-        Conta contaAtualizada = new Conta(dto.NomeCliente, mesa.Id, garcom.Id);
+        Conta contaAtualizada = new Conta(dto.NomeCliente, mesa.Id, garcom.Id, garcom.Nome);
 
         Result resultadoValidacao = ValidarEntidade(contaAtualizada);
 
@@ -113,7 +113,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (conta.EstaFechada)
             return Falha(string.Empty, "Não é possível fechar uma conta que já está fechada.");
 
-        conta.Fechar();
+        conta.Fechar(conta.Garcom?.Nome ?? repositorioGarcom.SelecionarPorId(conta.GarcomId.Value)!.Nome);
 
         Mesa? mesa = repositorioMesa.SelecionarPorId(conta.MesaId);
         mesa?.MarcarComoLivre();
@@ -272,7 +272,7 @@ public class ServicoConta : ServicoBase<Conta>
             conta.Id,
             conta.NomeCliente,
             conta.Mesa?.Identificacao ?? string.Empty,
-            conta.Garcom?.Nome ?? string.Empty,
+            conta.NomeGarcom,
             conta.DataAbertura,
             conta.Situacao,
             conta.ValorTotal
@@ -287,7 +287,7 @@ public class ServicoConta : ServicoBase<Conta>
             conta.MesaId,
             conta.Mesa?.Identificacao ?? string.Empty,
             conta.GarcomId,
-            conta.Garcom?.Nome ?? string.Empty,
+            conta.NomeGarcom,
             conta.DataAbertura,
             conta.Situacao,
             conta.ValorTotal,

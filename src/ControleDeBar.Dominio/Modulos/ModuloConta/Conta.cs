@@ -10,8 +10,9 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     public string NomeCliente { get; set; } = string.Empty;
     public Guid MesaId { get; set; }
     public Mesa? Mesa { get; set; }
-    public Guid GarcomId { get; set; }
+    public Guid? GarcomId { get; set; }
     public Garcom? Garcom { get; set; }
+    public string NomeGarcom { get; set; } = string.Empty;
     public DateTime DataAbertura { get; private set; }
     public SituacaoConta Situacao { get; private set; }
     public decimal ValorTotal { get; private set; }
@@ -25,11 +26,12 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     {
     }
 
-    public Conta(string nomeCliente, Guid mesaId, Guid garcomId) : this()
+    public Conta(string nomeCliente, Guid mesaId, Guid garcomId, string nomeGarcom) : this()
     {
         NomeCliente = nomeCliente;
         MesaId = mesaId;
         GarcomId = garcomId;
+        NomeGarcom = nomeGarcom;
         DataAbertura = DateTime.Now;
         Situacao = SituacaoConta.Aberta;
         ValorTotal = 0m;
@@ -49,7 +51,9 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
         if (MesaId == Guid.Empty)
             erros.Add("O campo \"Mesa\" deve ser preenchido.");
 
-        if (GarcomId == Guid.Empty)
+        if (!GarcomId.HasValue || GarcomId.Value == Guid.Empty)
+            erros.Add("O campo \"Garçom\" deve ser preenchido.");
+        else if (string.IsNullOrWhiteSpace(NomeGarcom))
             erros.Add("O campo \"Garçom\" deve ser preenchido.");
 
         if (DataAbertura == default)
@@ -66,10 +70,12 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
         NomeCliente = entidadeAtualizada.NomeCliente;
         MesaId = entidadeAtualizada.MesaId;
         GarcomId = entidadeAtualizada.GarcomId;
+        NomeGarcom = entidadeAtualizada.NomeGarcom;
     }
 
-    public void Fechar()
+    public void Fechar(string nomeGarcom)
     {
+        NomeGarcom = nomeGarcom;
         Situacao = SituacaoConta.Fechada;
     }
 
