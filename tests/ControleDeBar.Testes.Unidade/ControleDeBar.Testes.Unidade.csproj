@@ -21,4 +21,9 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+    <ItemGroup>
+    <Folder Include="Modulos/" />
+    <Folder Include="Modulos/ModuloGarcom/" />
+  </ItemGroup>
+
 </Project>
