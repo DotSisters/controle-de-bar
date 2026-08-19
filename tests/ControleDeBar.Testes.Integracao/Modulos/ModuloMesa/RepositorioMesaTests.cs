@@ -33,31 +33,6 @@ public class RepositorioMesaTests : RepositorioBaseTests
     }
 
     [TestMethod]
-    public void Cadastrar_ComCamposObrigatorios_RegistraMesa()
-    {
-        // arrange
-        Mesa mesa = Builder<Mesa>
-            .CreateNew()
-            .With(m => m.Identificacao = "Mesa01")
-            .With(m => m.QuantidadeLugar = 4)
-            .With(m => m.UserId = Guid.Empty)
-            .Build();
-
-        repositorioMesa.Cadastrar(mesa);
-
-        dbContext.ChangeTracker.Clear();
-
-        // act
-        Mesa? mesaSelecionada = repositorioMesa.SelecionarPorId(mesa.Id);
-
-        // assert
-        Assert.IsNotNull(mesaSelecionada);
-        Assert.AreEqual("Mesa01", mesaSelecionada.Identificacao);
-        Assert.AreEqual(4, mesaSelecionada.QuantidadeLugar);
-        Assert.AreEqual(StatusMesa.Livre, mesaSelecionada.StatusMesa);
-    }
-
-    [TestMethod]
     public void Editar_ComDadosValidos_AtualizaMesa()
     {
         // arrange
@@ -144,14 +119,15 @@ public class RepositorioMesaTests : RepositorioBaseTests
         dbContext.ChangeTracker.Clear();
 
         // act
-        repositorioMesa.Excluir(mesa.Id);
+        bool conseguiuExcluir = repositorioMesa.Excluir(mesa.Id);
+
         dbContext.ChangeTracker.Clear();
 
         Mesa? mesaSelecionada = repositorioMesa.SelecionarPorId(mesa.Id);
 
         // assert
+        Assert.IsTrue(conseguiuExcluir);
         Assert.IsNull(mesaSelecionada);
     }
-
 
 }

@@ -27,9 +27,9 @@ public class Mesa : EntidadeBase<Mesa>, IEntidadeDoUsuario
 
         if (string.IsNullOrWhiteSpace(Identificacao))
             erros.Add("O campo \"Identificação\" deve ser preenchido.");
-        else if (Identificacao.Length < 3)
+        else if (Identificacao.Length < 2)
             erros.Add("O campo \"Identificação\" deve conter no mínimo 2 caracteres.");
-        else if (Identificacao.Length > 100)
+        else if (Identificacao.Length > 20)
             erros.Add("O campo \"Identificação\" deve conter no máximo 20 caracteres.");
 
         if (!Enum.IsDefined(StatusMesa))

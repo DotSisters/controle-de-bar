@@ -65,7 +65,18 @@ public class ServicoMesa : ServicoBase<Mesa>
         if (mesa == null)
             return Falha(string.Empty, "Mesa não encontrada.");
 
-        repositorioMesa.Excluir(id);
+        if (mesa.StatusMesa == StatusMesa.Ocupada)
+        {
+            return Falha(
+                string.Empty,
+                "Não é possível excluir uma mesa vinculada a uma conta em aberto."
+            );
+        }
+
+        bool conseguiuExcluir = repositorioMesa.Excluir(id);
+
+        if (!conseguiuExcluir)
+            return Falha(string.Empty, "Não foi possível excluir a mesa.");
 
         return Result.Ok();
     }
