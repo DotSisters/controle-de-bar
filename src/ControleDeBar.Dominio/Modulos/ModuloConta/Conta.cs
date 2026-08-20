@@ -8,8 +8,9 @@ namespace ControleDeBar.Dominio.Modulos.ModuloConta;
 public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
 {
     public string NomeCliente { get; set; } = string.Empty;
-    public Guid MesaId { get; set; }
+    public Guid? MesaId { get; set; }
     public Mesa? Mesa { get; set; }
+    public string IdentificacaoMesa { get; set; } = string.Empty;
     public Guid? GarcomId { get; set; }
     public Garcom? Garcom { get; set; }
     public string NomeGarcom { get; set; } = string.Empty;
@@ -26,10 +27,11 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     {
     }
 
-    public Conta(string nomeCliente, Guid mesaId, Guid garcomId, string nomeGarcom) : this()
+    public Conta(string nomeCliente, Guid mesaId, string identificacaoMesa, Guid garcomId, string nomeGarcom) : this()
     {
         NomeCliente = nomeCliente;
         MesaId = mesaId;
+        IdentificacaoMesa = identificacaoMesa;
         GarcomId = garcomId;
         NomeGarcom = nomeGarcom;
         DataAbertura = DateTime.Now;
@@ -48,7 +50,9 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
         else if (NomeCliente.Length > 100)
             erros.Add("O campo \"Nome do Cliente\" deve conter no máximo 100 caracteres.");
 
-        if (MesaId == Guid.Empty)
+        if (!MesaId.HasValue || MesaId.Value == Guid.Empty)
+            erros.Add("O campo \"Mesa\" deve ser preenchido.");
+        else if (string.IsNullOrWhiteSpace(IdentificacaoMesa))
             erros.Add("O campo \"Mesa\" deve ser preenchido.");
 
         if (!GarcomId.HasValue || GarcomId.Value == Guid.Empty)
@@ -69,13 +73,15 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     {
         NomeCliente = entidadeAtualizada.NomeCliente;
         MesaId = entidadeAtualizada.MesaId;
+        IdentificacaoMesa = entidadeAtualizada.IdentificacaoMesa;
         GarcomId = entidadeAtualizada.GarcomId;
         NomeGarcom = entidadeAtualizada.NomeGarcom;
     }
 
-    public void Fechar(string nomeGarcom)
+    public void Fechar(string nomeGarcom, string identificacaoMesa)
     {
         NomeGarcom = nomeGarcom;
+        IdentificacaoMesa = identificacaoMesa;
         Situacao = SituacaoConta.Fechada;
     }
 
