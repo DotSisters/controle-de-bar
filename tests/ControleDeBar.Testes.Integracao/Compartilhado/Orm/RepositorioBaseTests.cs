@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleDeBar.Testes.Integracao.Compartilhado.Orm;
 
-public abstract class RepositorioBaseEmOrmTests
+public abstract class RepositorioBaseTests
 {
     protected ControleDeBarDbContext dbContext = null!;
     // protected RepositorioMesaEmOrm repositorioMesa = null!;
