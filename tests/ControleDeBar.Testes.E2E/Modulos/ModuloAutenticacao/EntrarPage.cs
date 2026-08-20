@@ -40,4 +40,11 @@ public sealed class EntrarPage(
             new() { Name = "Entrar", Exact = true }
         ).ClickAsync();
     }
+
+    // Método auxiliar para simplificar o teste
+    public async Task AutenticarAsync(string email, string senha)
+    {
+        await PreencherAsync(email, senha);
+        await ConfirmarAsync();
+    }
 }

@@ -45,7 +45,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (garcom == null)
             return Falha(nameof(dto.GarcomId), "Garçom não encontrado.");
 
-        Conta novaConta = new Conta(dto.NomeCliente, mesa.Id, garcom.Id, garcom.Nome);
+        Conta novaConta = new Conta(dto.NomeCliente, mesa.Id, mesa.Identificacao, garcom.Id, garcom.Nome);
 
         Result resultadoValidacao = ValidarEntidade(novaConta);
 
@@ -78,7 +78,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (garcom == null)
             return Falha(nameof(dto.GarcomId), "Garçom não encontrado.");
 
-        Conta contaAtualizada = new Conta(dto.NomeCliente, mesa.Id, garcom.Id, garcom.Nome);
+        Conta contaAtualizada = new Conta(dto.NomeCliente, mesa.Id, mesa.Identificacao, garcom.Id, garcom.Nome);
 
         Result resultadoValidacao = ValidarEntidade(contaAtualizada);
 
@@ -90,7 +90,7 @@ public class ServicoConta : ServicoBase<Conta>
             if (repositorioConta.ExisteContaAbertaPorMesa(mesa.Id))
                 return Falha(nameof(dto.MesaId), "Não é possível vincular esta conta a esta mesa porque ela já possui uma conta em aberto.");
 
-            Mesa? mesaAnterior = repositorioMesa.SelecionarPorId(conta.MesaId);
+            Mesa? mesaAnterior = repositorioMesa.SelecionarPorId(conta.MesaId!.Value);
             mesaAnterior?.MarcarComoLivre();
             mesa.MarcarComoOcupada();
         }
@@ -113,9 +113,13 @@ public class ServicoConta : ServicoBase<Conta>
         if (conta.EstaFechada)
             return Falha(string.Empty, "Não é possível fechar uma conta que já está fechada.");
 
-        conta.Fechar(conta.Garcom?.Nome ?? repositorioGarcom.SelecionarPorId(conta.GarcomId.Value)!.Nome);
+        Mesa? mesa = repositorioMesa.SelecionarPorId(conta.MesaId!.Value);
 
-        Mesa? mesa = repositorioMesa.SelecionarPorId(conta.MesaId);
+        conta.Fechar(
+            conta.Garcom?.Nome ?? repositorioGarcom.SelecionarPorId(conta.GarcomId.Value)!.Nome,
+            conta.Mesa?.Identificacao ?? mesa!.Identificacao
+        );
+
         mesa?.MarcarComoLivre();
 
         bool conseguiuEditar = repositorioConta.Editar(id, conta);
@@ -135,7 +139,7 @@ public class ServicoConta : ServicoBase<Conta>
 
         if (conta.EstaAberta)
         {
-            Mesa? mesa = repositorioMesa.SelecionarPorId(conta.MesaId);
+            Mesa? mesa = repositorioMesa.SelecionarPorId(conta.MesaId!.Value);
             mesa?.MarcarComoLivre();
         }
 
@@ -271,7 +275,7 @@ public class ServicoConta : ServicoBase<Conta>
         return new ListarContasDto(
             conta.Id,
             conta.NomeCliente,
-            conta.Mesa?.Identificacao ?? string.Empty,
+            conta.IdentificacaoMesa,
             conta.NomeGarcom,
             conta.DataAbertura,
             conta.Situacao,
@@ -285,7 +289,7 @@ public class ServicoConta : ServicoBase<Conta>
             conta.Id,
             conta.NomeCliente,
             conta.MesaId,
-            conta.Mesa?.Identificacao ?? string.Empty,
+            conta.IdentificacaoMesa,
             conta.GarcomId,
             conta.NomeGarcom,
             conta.DataAbertura,

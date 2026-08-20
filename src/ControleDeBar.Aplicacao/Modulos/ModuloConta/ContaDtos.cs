@@ -28,7 +28,7 @@ public record EditarContaDto(
 public record DetalhesContaDto(
     Guid Id,
     string NomeCliente,
-    Guid MesaId,
+    Guid? MesaId,
     string IdentificacaoMesa,
     Guid? GarcomId,
     string NomeGarcom,

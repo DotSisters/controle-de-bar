@@ -11,7 +11,7 @@ public sealed class AutenticacaoE2ETests : E2ETestsBase
         EntrarPage entrarPage = new(Page, UrlBase);
 
         // Act
-        await Page.GotoAsync($"{UrlBase}/");
+        await entrarPage.IrParaAsync();
 
         // Assert
         await Expect(entrarPage.Titulo).ToBeVisibleAsync();
@@ -23,17 +23,18 @@ public sealed class AutenticacaoE2ETests : E2ETestsBase
         // Arrange
         const string email = "novo.usuario@teste.local";
         const string senha = "Senha123!";
+        const string nome = "Novo Usuario";
 
         RegistrarPage registrarPage = new(Page, UrlBase);
 
         await registrarPage.IrParaAsync();
 
         // Act
-        await registrarPage.PreencherAsync(email, senha);
+        await registrarPage.PreencherAsync(nome, email, senha);
         await registrarPage.ConfirmarAsync();
 
         // Assert
-        await Expect(Page).ToHaveURLAsync($"{UrlBase}/");
+        await Expect(Page).ToHaveURLAsync($"{UrlBase}/Home/Home");
     }
 
     [TestMethod]
@@ -53,7 +54,7 @@ public sealed class AutenticacaoE2ETests : E2ETestsBase
         await entrarPage.ConfirmarAsync();
 
         // Assert
-        await Expect(Page).ToHaveURLAsync($"{UrlBase}/");
+        await Expect(Page).ToHaveURLAsync($"{UrlBase}/Home/Home");
         await Expect(entrarPage.UsuarioAutenticado(email)).ToBeVisibleAsync();
     }
 }

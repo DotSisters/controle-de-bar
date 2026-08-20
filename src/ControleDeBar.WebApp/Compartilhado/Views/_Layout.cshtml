@@ -19,7 +19,7 @@
   <title>@ViewBag.Titulo Controle de Bar</title>
 </head>
 
-<body class="@ViewData[" BodyClass"]">
+<body class="@(ViewData["BodyClass"])">
   @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
@@ -28,8 +28,7 @@
   @* Barra de Navegação *@
   <nav class="navbar navbar-expand-lg site-navbar">
     <div class="container">
-      <a class="navbar-brand" asp-controller="Home" asp-action="@(User.Identity?.IsAuthenticated == true ? " Home"
-                 : "Index" )">Controle de Bar</a>
+      <a class="navbar-brand" asp-controller="Home" asp-action="@(User.Identity?.IsAuthenticated == true ? "Home" : "Index")">Controle de Bar</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
               aria-controls="menuPrincipal" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,22 +38,25 @@
       <div class="collapse navbar-collapse" id="menuPrincipal">
         @if (User.Identity?.IsAuthenticated == true)
         {
-          <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            <a class="nav-link @(currentController == " Home" && currentAction == "Home" ? "nav-pill-active" : null)"
-               asp-controller="Home" asp-action="Home">Início</a>
+        <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <a class="nav-link @(currentController == "Home" && currentAction == "Home" ? "nav-pill-active" : null)"
+            asp-controller="Home" asp-action="Home">Início</a>
 
-            <a class="nav-link @(currentController == " Conta" ? "nav-pill-active" : null)" asp-controller="Conta"
-               asp-action="Listar">Contas</a>
+          <a class="nav-link @(currentController == "Mesa" ? "nav-pill-active" : null)" asp-controller="Mesa"
+            asp-action="Listar">Mesas</a>
 
-            <a class="nav-link @(currentController == " Produto" ? "nav-pill-active" : null)" asp-controller="Produto"
-               asp-action="Listar">Produtos</a>
+          <a class="nav-link @(currentController == "Garcom" ? "nav-pill-active" : null)" asp-controller="Garcom"
+            asp-action="Listar">Garçons</a>
 
-            <a class="nav-link @(currentController == " Mesa" ? "nav-pill-active" : null)" asp-controller="Mesa"
-               asp-action="Listar">Mesas</a>
+          <a class="nav-link @(currentController == "Produto" ? "nav-pill-active" : null)" asp-controller="Produto"
+            asp-action="Listar">Produtos</a>
 
-            <a class="nav-link @(currentController == " Garcom" ? "nav-pill-active" : null)" asp-controller="Garcom"
-               asp-action="Listar">Garçons</a>
-          </div>
+          <a class="nav-link @(currentController == "Conta" ? "nav-pill-active" : null)" asp-controller="Conta"
+            asp-action="Listar">Contas</a>
+
+          <a class="nav-link @(currentController == "Pedido" ? "nav-pill-active" : null)" asp-controller="Pedido"
+            asp-action="Listar">Pedidos</a>
+        </div>
 
 
           <div class="dropdown ms-lg-3">
@@ -73,12 +75,12 @@
         }
         else
         {
-          <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            <a class="nav-link @(currentController == " Autenticacao" && currentAction == "Entrar" ? "nav-pill-active" :
-                           null)" asp-controller="Autenticacao" asp-action="Entrar">Entrar</a>
-            <a class="nav-link @(currentController == " Autenticacao" && currentAction == "Registrar" ? "nav-pill-active" :
-                           null)" asp-controller="Autenticacao" asp-action="Registrar">Registrar</a>
-          </div>
+        <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <a class="nav-link @(currentController == "Autenticacao" && currentAction == "Entrar" ? "nav-pill-active" : null)"
+            asp-controller="Autenticacao" asp-action="Entrar">Entrar</a>
+          <a class="nav-link @(currentController == "Autenticacao" && currentAction == "Registrar" ? "nav-pill-active" : null)"
+            asp-controller="Autenticacao" asp-action="Registrar">Registrar</a>
+        </div>
         }
       </div>
     </div>

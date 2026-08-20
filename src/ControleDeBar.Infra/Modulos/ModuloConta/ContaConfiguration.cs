@@ -27,6 +27,10 @@ public sealed class ContaConfiguration : IEntityTypeConfiguration<Conta>
             .HasMaxLength(100)
             .IsRequired();
 
+        builder.Property(c => c.IdentificacaoMesa)
+            .HasMaxLength(100)
+            .IsRequired();
+
         builder.Property(c => c.DataAbertura)
             .IsRequired();
 
@@ -37,15 +41,15 @@ public sealed class ContaConfiguration : IEntityTypeConfiguration<Conta>
             .HasPrecision(18, 2)
             .IsRequired();
 
-        builder.Property(c => c.MesaId)
-            .IsRequired();
+        builder.Property(c => c.MesaId);
 
         builder.Property(c => c.GarcomId);
 
         builder.HasOne(c => c.Mesa)
             .WithMany()
             .HasForeignKey(c => c.MesaId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
 
         builder.HasOne(c => c.Garcom)
             .WithMany()

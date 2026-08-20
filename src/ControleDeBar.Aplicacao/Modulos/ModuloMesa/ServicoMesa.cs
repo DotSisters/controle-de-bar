@@ -69,9 +69,12 @@ public class ServicoMesa : ServicoBase<Mesa>
             return Falha(string.Empty, "Mesa não encontrada.");
 
         if (repositorioConta.ExisteContaAbertaPorMesa(mesa.Id))
-            return Falha(string.Empty, "Não é possível excluir esta mesa porque ela está vinculada a uma conta em aberto.");
+            return Falha(string.Empty, "Não é possível excluir uma mesa vinculada a uma conta em aberto");
 
-        repositorioMesa.Excluir(id);
+        bool conseguiuExcluir = repositorioMesa.Excluir(id);
+
+        if (!conseguiuExcluir)
+            return Falha(string.Empty, "Não foi possível excluir a mesa.");
 
         return Result.Ok();
     }

@@ -1,4 +1,5 @@
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
+using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using ControleDeBar.Infra.Compartilhado.Orm;
 using ControleDeBar.Testes.Integracao.Compartilhado.Identity;
 using FizzWare.NBuilder;
@@ -9,11 +10,11 @@ namespace ControleDeBar.Testes.Integracao.Compartilhado.Orm;
 public abstract class RepositorioBaseTests
 {
     protected ControleDeBarDbContext dbContext = null!;
-    // protected RepositorioMesaEmOrm repositorioMesa = null!;
+    protected RepositorioMesa repositorioMesa = null!;
     protected RepositorioGarcom repositorioGarcom = null!;
-    // protected RepositorioProdutoEmOrm repositorioProduto = null!;
-    // protected RepositorioContaEmOrm repositorioConta = null!;
-    // protected RepositorioPedidoEmOrm repositorioPedido = null!;
+    // protected RepositorioProduto repositorioProduto = null!;
+    // protected RepositorioConta repositorioConta = null!;
+    // protected RepositorioPedido repositorioPedido = null!;
 
     [TestInitialize]
     public void InicializarContexto()
@@ -21,14 +22,14 @@ public abstract class RepositorioBaseTests
         dbContext = CriarDbContext(Guid.NewGuid());
 
         // Mesa
-        // repositorioMesa = new RepositorioMesaEmOrm(dbContext);
+        repositorioMesa = new RepositorioMesa(dbContext);
 
-        // BuilderSetup.SetCreatePersistenceMethod<Mesa>(repositorioMesa.Cadastrar);
-        // BuilderSetup.SetCreatePersistenceMethod<IList<Mesa>>((mesas) =>
-        // {
-        //     foreach (Mesa m in mesas)
-        //         repositorioMesa.Cadastrar(m);
-        // });
+        BuilderSetup.SetCreatePersistenceMethod<Mesa>(repositorioMesa.Cadastrar);
+        BuilderSetup.SetCreatePersistenceMethod<IList<Mesa>>((mesas) =>
+        {
+            foreach (Mesa m in mesas)
+                repositorioMesa.Cadastrar(m);
+        });
 
         // Garcom
         repositorioGarcom = new RepositorioGarcom(dbContext);
@@ -41,7 +42,7 @@ public abstract class RepositorioBaseTests
         });
 
         // // Produto
-        // repositorioProduto = new RepositorioProdutoEmOrm(dbContext);
+        // repositorioProduto = new RepositorioProduto(dbContext);
 
         // BuilderSetup.SetCreatePersistenceMethod<Produto>(repositorioProduto.Cadastrar);
         // BuilderSetup.SetCreatePersistenceMethod<IList<Produto>>((produtos) =>
@@ -51,7 +52,7 @@ public abstract class RepositorioBaseTests
         // });
 
         // // Conta
-        // repositorioConta = new RepositorioContaEmOrm(dbContext);
+        // repositorioConta = new RepositorioConta(dbContext);
 
         // BuilderSetup.SetCreatePersistenceMethod<Conta>(repositorioConta.Cadastrar);
         // BuilderSetup.SetCreatePersistenceMethod<IList<Conta>>((contas) =>
@@ -61,7 +62,7 @@ public abstract class RepositorioBaseTests
         // });
 
         // // Pedido
-        // repositorioPedido = new RepositorioPedidoEmOrm(dbContext);
+        // repositorioPedido = new RepositorioPedido(dbContext);
 
         // BuilderSetup.SetCreatePersistenceMethod<Pedido>(repositorioPedido.Cadastrar);
         // BuilderSetup.SetCreatePersistenceMethod<IList<Pedido>>((pedidos) =>
@@ -85,8 +86,8 @@ public abstract class RepositorioBaseTests
                 .Options;
 
         return new ControleDeBarDbContext(
-              options,
-              new ProvedorDeUsuarioFake(userId)
-          );
+            options,
+            new ProvedorDeUsuarioFake(userId)
+        );
     }
 }
