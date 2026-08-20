@@ -84,7 +84,7 @@ public sealed class MesaTests
     [TestMethod]
     public void Validar_ComIdentificacaoTamanhoMaximo()
     {
-        Mesa mesa = new(new string('A', 100), 7);
+        Mesa mesa = new(new string('A', 20), 7);
 
         List<string> erros = mesa.Validar();
 
