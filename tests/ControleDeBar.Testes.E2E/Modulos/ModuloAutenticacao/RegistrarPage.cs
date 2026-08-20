@@ -9,6 +9,7 @@ public sealed class RegistrarPage(
 {
     public string Url => $"{urlBase}/Autenticacao/Registrar";
 
+    public ILocator Nome => page.GetByLabel("Nome");
     public ILocator Email => page.GetByLabel("E-mail");
     public ILocator Senha => page.GetByLabel("Senha", new() { Exact = true });
     public ILocator ConfirmarSenha => page.GetByLabel("Confirmar Senha");
@@ -18,8 +19,9 @@ public sealed class RegistrarPage(
         await page.GotoAsync(Url);
     }
 
-    public async Task PreencherAsync(string email, string senha)
+    public async Task PreencherAsync(string nome, string email, string senha)
     {
+        await Nome.FillAsync(nome);
         await Email.FillAsync(email);
         await Senha.FillAsync(senha);
         await ConfirmarSenha.FillAsync(senha);
@@ -29,7 +31,7 @@ public sealed class RegistrarPage(
     {
         await page.GetByRole(
             AriaRole.Button,
-            new() { Name = "Criar Conta", Exact = true }
+            new() { Name = "Registrar", Exact = true }
         ).ClickAsync();
     }
 }
