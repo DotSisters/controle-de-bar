@@ -1,4 +1,5 @@
 using ControleDeBar.Aplicacao.Modulos.ModuloMesa;
+using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using FluentResults;
 using Moq;
@@ -12,6 +13,8 @@ public sealed class ServicoMesaTests
     public void Cadastrar_ComDadosValidos_PersisteMesa()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
+
         repositorioMesa.Setup(r => r.SelecionarTodos()).Returns([]);
 
         Mesa? mesaCadastrada = null;
@@ -20,7 +23,10 @@ public sealed class ServicoMesaTests
             .Setup(r => r.Cadastrar(It.IsAny<Mesa>()))
             .Callback<Mesa>(mesa => mesaCadastrada = mesa);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Cadastrar(
             new CadastrarMesaDto("Mesa01", 10, StatusMesa.Livre)
@@ -40,9 +46,14 @@ public sealed class ServicoMesaTests
     public void Cadastrar_ComIdentificacaoVazia_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
+
         repositorioMesa.Setup(r => r.SelecionarTodos()).Returns([]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Cadastrar(
             new CadastrarMesaDto(string.Empty, 10, StatusMesa.Livre)
@@ -64,9 +75,14 @@ public sealed class ServicoMesaTests
     public void Cadastrar_ComQuantidadeLugarInvalida_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
+
         repositorioMesa.Setup(r => r.SelecionarTodos()).Returns([]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Cadastrar(
             new CadastrarMesaDto("Mesa01", 0, StatusMesa.Livre)
@@ -88,9 +104,14 @@ public sealed class ServicoMesaTests
     public void Cadastrar_ComStatusInicialOcupada_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
+
         repositorioMesa.Setup(r => r.SelecionarTodos()).Returns([]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Cadastrar(
             new CadastrarMesaDto("Mesa01", 4, StatusMesa.Ocupada)
@@ -112,12 +133,16 @@ public sealed class ServicoMesaTests
     public void Cadastrar_ComNumeroDuplicado_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarTodos())
             .Returns([new Mesa("Mesa01", 4)]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Cadastrar(
             new CadastrarMesaDto("Mesa01", 4, StatusMesa.Livre)
@@ -139,6 +164,7 @@ public sealed class ServicoMesaTests
     public void Editar_ComDadosValidos_RetornaSucesso()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarTodos())
@@ -148,7 +174,10 @@ public sealed class ServicoMesaTests
             .Setup(r => r.Editar(It.IsAny<Guid>(), It.IsAny<Mesa>()))
             .Returns(true);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Editar(
             new EditarMesaDto(
@@ -173,6 +202,7 @@ public sealed class ServicoMesaTests
         Guid idMesaExistente = Guid.NewGuid();
 
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarTodos())
@@ -184,7 +214,10 @@ public sealed class ServicoMesaTests
                 new Mesa("Mesa02", 4)
             ]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Editar(
             new EditarMesaDto(
@@ -213,12 +246,16 @@ public sealed class ServicoMesaTests
         Mesa mesaExistente = new("Mesa01", 4);
 
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarPorId(mesaExistente.Id))
             .Returns(mesaExistente);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result<DetalhesMesaDto> resultado =
             servicoMesa.SelecionarPorId(mesaExistente.Id);
@@ -231,6 +268,7 @@ public sealed class ServicoMesaTests
     public void SelecionarTodos_ComMesasCadastradas_RetornaTodas()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarTodos())
@@ -239,7 +277,10 @@ public sealed class ServicoMesaTests
                 new Mesa("Mesa02", 6)
             ]);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         List<ListarMesasDto> resultado = servicoMesa.SelecionarTodos();
 
@@ -252,6 +293,7 @@ public sealed class ServicoMesaTests
         Mesa mesaExistente = new("Mesa01", 4);
 
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarPorId(mesaExistente.Id))
@@ -261,7 +303,10 @@ public sealed class ServicoMesaTests
             .Setup(r => r.Excluir(mesaExistente.Id))
             .Returns(true);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Excluir(mesaExistente.Id);
 
@@ -277,6 +322,7 @@ public sealed class ServicoMesaTests
     public void Excluir_MesaVinculadaContaEmAberto_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         Mesa mesaExistente = new("Mesa01", 4);
         mesaExistente.MarcarComoOcupada();
@@ -285,13 +331,20 @@ public sealed class ServicoMesaTests
             .Setup(r => r.SelecionarPorId(mesaExistente.Id))
             .Returns(mesaExistente);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        repositorioConta
+            .Setup(r => r.ExisteContaAbertaPorMesa(mesaExistente.Id))
+            .Returns(true);
+
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Excluir(mesaExistente.Id);
 
         Assert.IsTrue(resultado.IsFailed);
         Assert.AreEqual(
-            "Não é possível excluir uma mesa vinculada a uma conta em aberto.",
+            "Não é possível excluir uma mesa vinculada a uma conta em aberto",
             resultado.Errors.First().Message
         );
 
@@ -305,12 +358,16 @@ public sealed class ServicoMesaTests
     public void Excluir_MesaNaoEncontrada_RetornaErro()
     {
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarPorId(It.IsAny<Guid>()))
             .Returns((Mesa?)null);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Excluir(Guid.NewGuid());
 
@@ -332,6 +389,7 @@ public sealed class ServicoMesaTests
         Mesa mesa = new("Mesa01", 4);
 
         Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioConta> repositorioConta = new();
 
         repositorioMesa
             .Setup(r => r.SelecionarPorId(mesa.Id))
@@ -341,7 +399,10 @@ public sealed class ServicoMesaTests
             .Setup(r => r.Excluir(mesa.Id))
             .Returns(false);
 
-        ServicoMesa servicoMesa = new(repositorioMesa.Object);
+        ServicoMesa servicoMesa = new(
+            repositorioMesa.Object,
+            repositorioConta.Object
+        );
 
         Result resultado = servicoMesa.Excluir(mesa.Id);
 
