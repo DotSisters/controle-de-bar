@@ -1,7 +1,9 @@
+using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
 using ControleDeBar.Dominio.Modulos.ModuloProduto;
 using ControleDeBar.Infra.Compartilhado.Orm;
+using ControleDeBar.Infra.Modulos.ModuloConta;
 using ControleDeBar.Testes.Integracao.Compartilhado.Identity;
 using FizzWare.NBuilder;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +16,7 @@ public abstract class RepositorioBaseTests
     protected RepositorioMesa repositorioMesa = null!;
     protected RepositorioGarcom repositorioGarcom = null!;
     // protected RepositorioProduto repositorioProduto = null!;
-    // protected RepositorioConta repositorioConta = null!;
+    protected RepositorioConta repositorioConta = null!;
     // protected RepositorioPedido repositorioPedido = null!;
     protected RepositorioProduto repositorioProduto = null!;
 
@@ -53,15 +55,15 @@ public abstract class RepositorioBaseTests
                 repositorioProduto.Cadastrar(p);
         });
 
-        // // Conta
-        // repositorioConta = new RepositorioConta(dbContext);
+        // Conta
+        repositorioConta = new RepositorioConta(dbContext);
 
-        // BuilderSetup.SetCreatePersistenceMethod<Conta>(repositorioConta.Cadastrar);
-        // BuilderSetup.SetCreatePersistenceMethod<IList<Conta>>((contas) =>
-        // {
-        //     foreach (Conta c in contas)
-        //         repositorioConta.Cadastrar(c);
-        // });
+        BuilderSetup.SetCreatePersistenceMethod<Conta>(repositorioConta.Cadastrar);
+        BuilderSetup.SetCreatePersistenceMethod<IList<Conta>>((contas) =>
+        {
+            foreach (Conta c in contas)
+                repositorioConta.Cadastrar(c);
+        });
 
         // // Pedido
         // repositorioPedido = new RepositorioPedido(dbContext);
