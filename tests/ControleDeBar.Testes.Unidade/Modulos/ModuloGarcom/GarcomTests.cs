@@ -52,7 +52,7 @@ public sealed class GarcomTests
 
         Assert.HasCount(1, erros);
         Assert.AreEqual(
-            "O campo \"CPF\" deve ser preenchido.",
+            "O campo \"Cpf\" deve ser preenchido.",
             erros.First()
         );
     }
@@ -128,7 +128,7 @@ public sealed class GarcomTests
 
         Assert.HasCount(1, erros);
         Assert.AreEqual(
-            "O campo \"CPF\" deve conter 11 dígitos.",
+            "O campo \"Cpf\" deve conter 11 dígitos.",
             erros.First()
         );
     }
@@ -142,7 +142,7 @@ public sealed class GarcomTests
 
         Assert.HasCount(1, erros);
         Assert.AreEqual(
-            "O campo \"CPF\" deve conter 11 dígitos.",
+            "O campo \"Cpf\" deve conter 11 dígitos.",
             erros.First()
         );
     }
@@ -166,7 +166,7 @@ public sealed class GarcomTests
 
         Assert.HasCount(1, erros);
         Assert.AreEqual(
-            "O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.",
+            "O campo \"Cpf\" deve estar no formato XXX.XXX.XXX-XX.",
             erros.First()
         );
     }
@@ -180,7 +180,7 @@ public sealed class GarcomTests
 
         Assert.HasCount(1, erros);
         Assert.AreEqual(
-            "O campo \"CPF\" deve estar no formato XXX.XXX.XXX-XX.",
+            "O campo \"Cpf\" deve estar no formato XXX.XXX.XXX-XX.",
             erros.First()
         );
     }
