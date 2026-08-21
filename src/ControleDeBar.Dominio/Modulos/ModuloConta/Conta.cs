@@ -87,7 +87,20 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
 
     public void AdicionarItem(ItemPedido item)
     {
+        if (EstaFechada)
+            return;
+
+        item.AtribuirConta(this);
         Itens.Add(item);
+        RecalcularValorTotal();
+    }
+
+    public void RemoverItem(ItemPedido item)
+    {
+        if (EstaFechada)
+            return;
+
+        Itens.Remove(item);
         RecalcularValorTotal();
     }
 

@@ -53,8 +53,19 @@ public class ItemPedido : EntidadeBase<ItemPedido>
 
     public void AlterarQuantidade(int quantidade)
     {
+        if (quantidade <= 0)
+            return;
+
+        if (Conta is { EstaFechada: true })
+            return;
+
         Quantidade = quantidade;
         CalcularValor();
+    }
+
+    internal void AtribuirConta(Conta conta)
+    {
+        Conta = conta;
     }
 
     private void CalcularValor()
