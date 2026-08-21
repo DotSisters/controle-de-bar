@@ -1,5 +1,6 @@
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
+using ControleDeBar.Dominio.Modulos.ModuloProduto;
 using ControleDeBar.Infra.Compartilhado.Orm;
 using ControleDeBar.Testes.Integracao.Compartilhado.Identity;
 using FizzWare.NBuilder;
@@ -15,6 +16,7 @@ public abstract class RepositorioBaseTests
     // protected RepositorioProduto repositorioProduto = null!;
     // protected RepositorioConta repositorioConta = null!;
     // protected RepositorioPedido repositorioPedido = null!;
+    protected RepositorioProduto repositorioProduto = null!;
 
     [TestInitialize]
     public void InicializarContexto()
@@ -41,15 +43,15 @@ public abstract class RepositorioBaseTests
                 repositorioGarcom.Cadastrar(g);
         });
 
-        // // Produto
-        // repositorioProduto = new RepositorioProduto(dbContext);
+        // Produto
+        repositorioProduto = new RepositorioProduto(dbContext);
 
-        // BuilderSetup.SetCreatePersistenceMethod<Produto>(repositorioProduto.Cadastrar);
-        // BuilderSetup.SetCreatePersistenceMethod<IList<Produto>>((produtos) =>
-        // {
-        //     foreach (Produto p in produtos)
-        //         repositorioProduto.Cadastrar(p);
-        // });
+        BuilderSetup.SetCreatePersistenceMethod<Produto>(repositorioProduto.Cadastrar);
+        BuilderSetup.SetCreatePersistenceMethod<IList<Produto>>((produtos) =>
+        {
+            foreach (Produto p in produtos)
+                repositorioProduto.Cadastrar(p);
+        });
 
         // // Conta
         // repositorioConta = new RepositorioConta(dbContext);
