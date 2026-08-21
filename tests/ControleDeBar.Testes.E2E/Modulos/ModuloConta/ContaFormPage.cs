@@ -18,6 +18,11 @@ public sealed class ContaFormPage(
     public ILocator Garcom =>
         page.GetByLabel("Garçom");
 
+    // Novo: captura mensagens de erro exibidas na tela de cadastro
+    public ILocator MensagemErro =>
+        page.GetByText("Não é possível abrir uma conta para esta mesa porque ela já possui uma conta em aberto.", new() { Exact = false });
+
+
     public async Task IrParaCadastroAsync()
     {
         await page.GotoAsync(UrlCadastrar);
