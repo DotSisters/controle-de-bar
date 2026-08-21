@@ -232,7 +232,7 @@ public class ServicoConta : ServicoBase<Conta>
         if (item == null)
             return Falha(string.Empty, "Item de pedido não encontrado.");
 
-        conta.RecalcularValorTotal(conta.Itens.Where(i => i.Id != item.Id).Select(i => i.Valor));
+        conta.RemoverItem(item);
 
         bool conseguiuExcluir = repositorioItemPedido.Excluir(item.Id);
 

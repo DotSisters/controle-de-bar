@@ -46,7 +46,8 @@ public sealed class ContaListarPage(
         }
     );
 
-    // Novo método para capturar o status da conta (Aberta/Fechada)
+    public ILocator NomeDoCliente(string nome) => NomeDoConta(nome);
+
     public ILocator StatusDaConta(string cliente)
     {
         ILocator card = CardPorNome(cliente);
@@ -56,7 +57,6 @@ public sealed class ContaListarPage(
 
     public ILocator StatusDaMesa(string identificacaoMesa)
     {
-        // Ajuste conforme o HTML real da sua aplicação
         return page.GetByText($"Mesa {identificacaoMesa}")
                    .Locator("..")
                    .Locator(".status");
@@ -64,14 +64,29 @@ public sealed class ContaListarPage(
 
     public ILocator Total(string cliente)
     {
-        // Localiza o total dentro do card da conta
         return CardPorNome(cliente).Locator(".total");
     }
 
     public ILocator Pedido(string cliente, string produto)
     {
-        // Localiza o pedido pelo nome do produto dentro do card da conta
         return CardPorNome(cliente).GetByText(produto);
+    }
+
+    public ILocator LinkAdicionarPedidos(string nomeCliente) =>
+        CardPorNome(nomeCliente).GetByRole(
+            AriaRole.Link,
+            new()
+            {
+                Name = "Adicionar Pedidos",
+                Exact = false
+            }
+        );
+
+    public ILocator TotalDaConta(string nomeCliente)
+    {
+        return CardPorNome(nomeCliente)
+            .Locator("dd")
+            .Nth(3);
     }
 
     public async Task IrParaAsync()
@@ -107,6 +122,60 @@ public sealed class ContaListarPage(
         await linkExcluir.ClickAsync();
     }
 
+    public async Task AdicionarPedidosAsync(string nomeCliente)
+    {
+        await IrParaAsync();
+        await LinkAdicionarPedidos(nomeCliente).ClickAsync();
+    }
+
+    public async Task IrParaGerenciarAsync(string nomeCliente)
+    {
+        await IrParaAsync();
+
+        await LinkGerenciar(nomeCliente).ClickAsync();
+    }
+
+    public async Task<string> ObterUrlAdicionarPedidosAsync(string nomeCliente)
+    {
+        ILocator linkAdicionar = LinkAdicionarPedidos(nomeCliente);
+
+        if (await linkAdicionar.CountAsync() > 0)
+            return ResolverUrl(await linkAdicionar.GetAttributeAsync("href"));
+
+        string urlGerenciar = ResolverUrl(
+            await LinkGerenciar(nomeCliente).GetAttributeAsync("href")
+        );
+
+        return urlGerenciar.Replace(
+            "/Conta/Gerenciar/",
+            "/Conta/AdicionarPedidos/",
+            StringComparison.OrdinalIgnoreCase
+        );
+    }
+
+    private ILocator LinkGerenciar(string nomeCliente)
+    {
+        ILocator card = CardPorNome(nomeCliente);
+
+        return card.GetByRole(
+            AriaRole.Link,
+            new()
+            {
+                Name = "Fechar Conta",
+                Exact = false
+            }
+        ).Or(
+            card.GetByRole(
+                AriaRole.Link,
+                new()
+                {
+                    Name = "Ver Detalhes",
+                    Exact = false
+                }
+            )
+        );
+    }
+
     private ILocator CardPorNome(string nome)
     {
         ILocator nomeConta = NomeDoConta(nome);
@@ -116,5 +185,19 @@ public sealed class ContaListarPage(
                 Has = nomeConta
             }
         );
+    }
+
+    private string ResolverUrl(string? href)
+    {
+        if (string.IsNullOrWhiteSpace(href))
+            return string.Empty;
+
+        if (href.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            return href;
+
+        if (href.StartsWith('/'))
+            return $"{urlBase.TrimEnd('/')}{href}";
+
+        return $"{urlBase.TrimEnd('/')}/{href}";
     }
 }
