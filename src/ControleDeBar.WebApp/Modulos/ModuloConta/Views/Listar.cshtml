@@ -52,6 +52,12 @@
                     <span class="badge text-bg-secondary rounded-pill">Fechada</span>
                   }
                 </div>
+                @if (!string.IsNullOrWhiteSpace(conta.TempoDesdeUltimoPedido))
+                {
+                  <p class="fs-6 fw-medium mb-0 mt-2 text-body-secondary">
+                    último pedido realizado @conta.TempoDesdeUltimoPedido
+                  </p>
+                }
               </div>
               <div class="card-body d-flex flex-column">
                 <dl class="row g-2 mb-4">
@@ -94,7 +100,7 @@
                   @if (conta.Situacao == SituacaoConta.Aberta)
                   {
                     <a asp-action="AdicionarPedidos" asp-route-id="@conta.Id" class="btn btn-sm btn-outline-primary"
-                       title="Adicionar pedidos">
+                      title="Adicionar pedidos">
                       <i class="bi bi-plus-circle"></i> Adicionar Pedidos
                     </a>
                     <a asp-action="Editar" asp-route-id="@conta.Id" class="btn btn-sm btn-success" title="Editar conta">

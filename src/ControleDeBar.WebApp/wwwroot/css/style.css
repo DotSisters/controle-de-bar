@@ -6,6 +6,7 @@
   --brand-mint-end: #2a9d8f	;
   --brand-ink: #1a2b28;
   --brand-muted: #6b7280;
+  --ultimo-pedido: #dc3545;
   --brand-gradient: linear-gradient(180deg, var(--brand-orange-start), var(--brand-orange-end));
   --brand-mint-gradient: linear-gradient(180deg, var(--brand-mint-start), var(--brand-mint-end));
 
@@ -71,6 +72,10 @@ body.page-mint::after {
 
 .page-title {
   color: var(--brand-ink);
+}
+
+.ultimo-pedido {
+  color: var(--ultimo-pedido);
 }
 
 .page-title-icon {
