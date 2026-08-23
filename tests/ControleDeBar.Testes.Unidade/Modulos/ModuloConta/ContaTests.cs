@@ -376,4 +376,79 @@ public sealed class ContaTests
 
         Assert.AreEqual(20m, conta.ValorTotal);
     }
+
+    [TestMethod]
+    public void ObterDataUltimoPedido_ContaVazia_RetornaNulo()
+    {
+        Conta conta = new Conta(
+            "João Silva",
+            Guid.CreateVersion7(),
+            "Mesa 01",
+            Guid.CreateVersion7(),
+            "Ana"
+        );
+
+        Assert.IsNull(conta.ObterDataUltimoPedido());
+    }
+
+    [TestMethod]
+    public void ObterDataUltimoPedido_ContaFechada_RetornaNulo()
+    {
+        Conta conta = new Conta(
+            "João Silva",
+            Guid.CreateVersion7(),
+            "Mesa 01",
+            Guid.CreateVersion7(),
+            "Ana"
+        );
+
+        ItemPedido item = new ItemPedido(
+            conta.Id,
+            Guid.CreateVersion7(),
+            1,
+            10m
+        );
+
+        conta.AdicionarItem(item);
+        conta.Fechar("Ana", "Mesa 01");
+
+        Assert.IsNull(conta.ObterDataUltimoPedido());
+    }
+
+    [TestMethod]
+    public void ObterDataUltimoPedido_ContaAbertaComItens_RetornaMaximo()
+    {
+        Conta conta = new Conta(
+            "João Silva",
+            Guid.CreateVersion7(),
+            "Mesa 01",
+            Guid.CreateVersion7(),
+            "Ana"
+        );
+
+        ItemPedido primeiroItem = new ItemPedido(
+            conta.Id,
+            Guid.CreateVersion7(),
+            1,
+            10m
+        );
+
+        ItemPedido segundoItem = new ItemPedido(
+            conta.Id,
+            Guid.CreateVersion7(),
+            2,
+            10m
+        );
+
+        conta.AdicionarItem(primeiroItem);
+        conta.AdicionarItem(segundoItem);
+
+        DateTime? dataUltimoPedido = conta.ObterDataUltimoPedido();
+
+        Assert.IsNotNull(dataUltimoPedido);
+        Assert.AreEqual(
+            conta.Itens.Max(i => i.DataAdicao),
+            dataUltimoPedido
+        );
+    }
 }

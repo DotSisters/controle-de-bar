@@ -38,6 +38,39 @@ public class RepositorioItemPedidoTests : RepositorioBaseTests
         Assert.AreEqual(3, itemSelecionado.Quantidade);
         Assert.AreEqual(7.50m, itemSelecionado.ValorUnitario);
         Assert.AreEqual(22.50m, itemSelecionado.Valor);
+        Assert.AreNotEqual(default, itemSelecionado.DataAdicao);
+        Assert.AreEqual(itemPedido.DataAdicao, itemSelecionado.DataAdicao);
+    }
+
+    [TestMethod]
+    public void Cadastrar_PersisteDataAdicaoDoItem()
+    {
+        // arrange
+        Produto produto = Builder<Produto>
+            .CreateNew()
+            .With(p => p.Nome = "Cerveja")
+            .With(p => p.Valor = 7.50m)
+            .With(p => p.UserId = Guid.Empty)
+            .Build();
+
+        repositorioProduto.Cadastrar(produto);
+
+        Conta conta = new("João Silva", Guid.CreateVersion7(), "Mesa 01", Guid.CreateVersion7(), "Ana");
+        repositorioConta.Cadastrar(conta);
+
+        ItemPedido itemPedido = new(conta.Id, produto.Id, 1, produto.Valor);
+        DateTime dataAdicao = itemPedido.DataAdicao;
+
+        repositorioItemPedido.Cadastrar(itemPedido);
+        dbContext.ChangeTracker.Clear();
+
+        // act
+        ItemPedido? itemSelecionado = repositorioItemPedido.SelecionarPorId(itemPedido.Id);
+
+        // assert
+        Assert.IsNotNull(itemSelecionado);
+        Assert.AreNotEqual(default, itemSelecionado.DataAdicao);
+        Assert.AreEqual(dataAdicao, itemSelecionado.DataAdicao);
     }
 
     [TestMethod]
