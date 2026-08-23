@@ -35,9 +35,40 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
+  migrate: 
     runs-on: windows-latest
     needs: build
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: "10.x"
+
+    - name: Restore dependencies
+      run: dotnet restore src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj
+    
+    - name: Install Entity Framework CLI
+      run: dotnet tool install --global dotnet-ef
+
+    - name: Apply ORM migrations to AzureSQL
+      env:
+        AZURESQL__CONNECTION__STRING: ${{ secrets.AZURESQL_CONNECTION_STRING }}
+        Infra__NewRelic__LicenseKey: ${{ secrets.NEWRELIC_LICENSE_KEY }}
+      run: |
+         dotnet ef database update `
+          --project src/ControleDeBar.Infra/ControleDeBar.Infra.csproj `
+          --startup-project src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj `
+          --configuration Release `
+          --connection "$env:AZURESQL_CONNECTION_STRING"  
+
+  deploy:
+    runs-on: windows-latest
+    needs: [build, migrate]
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
