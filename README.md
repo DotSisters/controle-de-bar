@@ -35,9 +35,9 @@
 
 ### 🪑 2. Módulo de Mesas
 
-<p align="center">
+<!-- <p align="center">
 <img src="./.docs/mesas.gif">
-</p>
+</p> -->
 
 ### Requisitos Funcionais
 
@@ -66,9 +66,9 @@
 
 ### 👨‍🍳 3. Módulo de Garçons
 
-<p align="center">
+<!-- <p align="center">
 <img src="./.docs/garcons.gif">
-</p>
+</p> -->
 
 ### Requisitos Funcionais
 
@@ -91,9 +91,9 @@
 
 ### 🍔 4. Módulo de Produtos
 
-<p align="center">
+<!-- <p align="center">
 <img src="./.docs/produtos.gif">
-</p>
+</p> -->
 
 ### Requisitos Funcionais
 
@@ -117,9 +117,9 @@
 
 ### 🧾 5. Módulo de Contas
 
-<p align="center">
+<!-- <p align="center">
 <img src="./.docs/contas.gif">
-</p>
+</p> -->
 
 ### Requisitos Funcionais
 
@@ -154,9 +154,9 @@
 
 ### 🛒 5.1 Módulo de Pedidos
 
-<p align="center">
+<!-- <p align="center">
 <img src="./.docs/pedidos.gif">
-</p>
+</p> -->
 
 ### Requisitos Funcionais
 
