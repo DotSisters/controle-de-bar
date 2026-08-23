@@ -12,6 +12,7 @@ public class ItemPedido : EntidadeBase<ItemPedido>
     public int Quantidade { get; private set; }
     public decimal ValorUnitario { get; private set; }
     public decimal Valor { get; private set; }
+    public DateTime DataAdicao { get; private set; }
 
     public ItemPedido()
     {
@@ -23,6 +24,7 @@ public class ItemPedido : EntidadeBase<ItemPedido>
         ProdutoId = produtoId;
         Quantidade = quantidade;
         ValorUnitario = valorUnitario;
+        DataAdicao = DateTime.Now;
         CalcularValor();
     }
 
@@ -41,6 +43,9 @@ public class ItemPedido : EntidadeBase<ItemPedido>
 
         if (ValorUnitario < 0)
             erros.Add("O valor unitário do item de pedido é inválido.");
+
+        if (DataAdicao == default)
+            erros.Add("O campo \"Data de Adição\" deve ser preenchido.");
 
         return erros;
     }

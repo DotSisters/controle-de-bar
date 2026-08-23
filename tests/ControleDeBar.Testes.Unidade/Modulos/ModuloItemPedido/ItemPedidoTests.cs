@@ -300,4 +300,37 @@ public sealed class ItemPedidoTests
         Assert.HasCount(1, erros);
         Assert.AreEqual("O campo \"Quantidade\" deve ser maior que zero.", erros.First());
     }
+
+    [TestMethod]
+    public void Construtor_PreencheDataAdicao()
+    {
+        ItemPedido itemPedido = new(Guid.CreateVersion7(), Guid.CreateVersion7(), 2, 20.00m);
+
+        Assert.AreNotEqual(default, itemPedido.DataAdicao);
+        Assert.AreEqual(DateTime.Today, itemPedido.DataAdicao.Date);
+    }
+
+    [TestMethod]
+    public void Validar_SemDataAdicao_RetornaErro()
+    {
+        ItemPedido itemPedido = new();
+
+        List<string> erros = itemPedido.Validar();
+
+        Assert.Contains(
+            "O campo \"Data de Adição\" deve ser preenchido.",
+            erros
+        );
+    }
+
+    [TestMethod]
+    public void AlterarQuantidade_NaoAlteraDataAdicao()
+    {
+        ItemPedido itemPedido = new(Guid.CreateVersion7(), Guid.CreateVersion7(), 2, 20.00m);
+        DateTime dataAdicaoOriginal = itemPedido.DataAdicao;
+
+        itemPedido.AlterarQuantidade(5);
+
+        Assert.AreEqual(dataAdicaoOriginal, itemPedido.DataAdicao);
+    }
 }

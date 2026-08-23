@@ -612,6 +612,100 @@ public sealed class ServicoContaTests
             "Cliente Teste",
             resultado[0].NomeCliente
         );
+        Assert.IsNull(resultado[0].TempoDesdeUltimoPedido);
+    }
+
+    [TestMethod]
+    public void SelecionarTodos_ContaAbertaComItens_PreencheTempoDesdeUltimoPedido()
+    {
+        Mock<IRepositorioConta> repositorioConta = new();
+        Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioGarcom> repositorioGarcom = new();
+        Mock<IRepositorioProduto> repositorioProduto = new();
+        Mock<IRepositorioItemPedido> repositorioItemPedido = new();
+
+        Conta conta = new Conta(
+            "Cliente Teste",
+            Guid.NewGuid(),
+            "Mesa 01",
+            Guid.NewGuid(),
+            "João"
+        );
+
+        ItemPedido item = new ItemPedido(
+            conta.Id,
+            Guid.NewGuid(),
+            1,
+            10m
+        );
+
+        conta.AdicionarItem(item);
+
+        repositorioConta
+            .Setup(r => r.SelecionarTodos())
+            .Returns(new List<Conta> { conta });
+
+        ServicoConta servicoConta = new ServicoConta(
+            repositorioConta.Object,
+            repositorioMesa.Object,
+            repositorioGarcom.Object,
+            repositorioProduto.Object,
+            repositorioItemPedido.Object
+        );
+
+        List<ListarContasDto> resultado = servicoConta.SelecionarTodos();
+
+        Assert.HasCount(1, resultado);
+        Assert.IsFalse(string.IsNullOrWhiteSpace(resultado[0].TempoDesdeUltimoPedido));
+        Assert.IsTrue(
+            resultado[0].TempoDesdeUltimoPedido == "agora mesmo"
+            || resultado[0].TempoDesdeUltimoPedido!.StartsWith("há ")
+        );
+    }
+
+    [TestMethod]
+    public void SelecionarTodos_ContaFechada_DeixaTempoDesdeUltimoPedidoNulo()
+    {
+        Mock<IRepositorioConta> repositorioConta = new();
+        Mock<IRepositorioMesa> repositorioMesa = new();
+        Mock<IRepositorioGarcom> repositorioGarcom = new();
+        Mock<IRepositorioProduto> repositorioProduto = new();
+        Mock<IRepositorioItemPedido> repositorioItemPedido = new();
+
+        Conta conta = new Conta(
+            "Cliente Teste",
+            Guid.NewGuid(),
+            "Mesa 01",
+            Guid.NewGuid(),
+            "João"
+        );
+
+        ItemPedido item = new ItemPedido(
+            conta.Id,
+            Guid.NewGuid(),
+            1,
+            10m
+        );
+
+        conta.AdicionarItem(item);
+        conta.Fechar("João", "Mesa 01");
+
+        repositorioConta
+            .Setup(r => r.SelecionarTodos())
+            .Returns(new List<Conta> { conta });
+
+        ServicoConta servicoConta = new ServicoConta(
+            repositorioConta.Object,
+            repositorioMesa.Object,
+            repositorioGarcom.Object,
+            repositorioProduto.Object,
+            repositorioItemPedido.Object
+        );
+
+        List<ListarContasDto> resultado = servicoConta.SelecionarTodos();
+
+        Assert.HasCount(1, resultado);
+        Assert.IsNull(resultado[0].TempoDesdeUltimoPedido);
     }
 
     [TestMethod]

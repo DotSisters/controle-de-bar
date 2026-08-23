@@ -11,7 +11,8 @@ public record ListarContasViewModel(
     string NomeGarcom,
     DateTime DataAbertura,
     SituacaoConta Situacao,
-    decimal ValorTotal
+    decimal ValorTotal,
+    string? TempoDesdeUltimoPedido
 );
 
 public record CadastrarContaViewModel(

@@ -1,4 +1,5 @@
 using ControleDeBar.Aplicacao.Compartilhado;
+using ControleDeBar.Dominio.Compartilhado;
 using ControleDeBar.Dominio.Modulos.ModuloConta;
 using ControleDeBar.Dominio.Modulos.ModuloGarcom;
 using ControleDeBar.Dominio.Modulos.ModuloMesa;
@@ -272,6 +273,11 @@ public class ServicoConta : ServicoBase<Conta>
 
     private static ListarContasDto MapearParaListarDto(Conta conta)
     {
+        DateTime? dataUltimoPedido = conta.ObterDataUltimoPedido();
+        string? tempoDesdeUltimoPedido = dataUltimoPedido.HasValue
+            ? FormatadorDataHumanizada.Formatar(dataUltimoPedido.Value, DateTime.Now)
+            : null;
+
         return new ListarContasDto(
             conta.Id,
             conta.NomeCliente,
@@ -279,7 +285,8 @@ public class ServicoConta : ServicoBase<Conta>
             conta.NomeGarcom,
             conta.DataAbertura,
             conta.Situacao,
-            conta.ValorTotal
+            conta.ValorTotal,
+            tempoDesdeUltimoPedido
         );
     }
 
