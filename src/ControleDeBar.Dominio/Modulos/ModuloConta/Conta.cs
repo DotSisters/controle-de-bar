@@ -118,4 +118,12 @@ public class Conta : EntidadeBase<Conta>, IEntidadeDoUsuario
     {
         ValorTotal = valoresDosItens.Sum();
     }
+
+    public DateTime? ObterDataUltimoPedido()
+    {
+        if (EstaFechada || Itens.Count == 0)
+            return null;
+
+        return Itens.Max(i => i.DataAdicao);
+    }
 }

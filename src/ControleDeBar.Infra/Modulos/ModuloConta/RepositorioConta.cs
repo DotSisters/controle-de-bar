@@ -23,6 +23,7 @@ public sealed class RepositorioConta(
         return registros
             .Include(c => c.Mesa)
             .Include(c => c.Garcom)
+            .Include(c => c.Itens)
             .ToList();
     }
 

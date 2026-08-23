@@ -89,6 +89,11 @@ public sealed class ContaListarPage(
             .Nth(3);
     }
 
+    public ILocator TempoDesdeUltimoPedido(string nomeCliente)
+    {
+        return CardPorNome(nomeCliente).Locator(".ultimo-pedido");
+    }
+
     public async Task IrParaAsync()
     {
         await page.GotoAsync(Url);

@@ -33,6 +33,11 @@ public sealed class ItemPedidoConfiguration : IEntityTypeConfiguration<ItemPedid
             .HasPrecision(18, 2)
             .IsRequired();
 
+        builder.Property(i => i.DataAdicao)
+            .HasColumnType("datetime2")
+            .IsRequired()
+            .HasDefaultValueSql("GETDATE()");
+
         builder.HasOne(i => i.Conta)
             .WithMany(c => c.Itens)
             .HasForeignKey(i => i.ContaId)
