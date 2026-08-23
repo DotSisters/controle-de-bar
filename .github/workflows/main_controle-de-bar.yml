@@ -55,6 +55,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_540FA7A7A6B542E4911B6B8F6457D0F7 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_600F0119A08C4D6088A52D044380EDC7 }}
 
+      # Atualizar variáveis de ambiente do Web App
+      - name: Configure Azure Web App Setting
+        shell: pwsh
+        run: |
+         az webapp config appsettings set `
+          --resource-group "controle-de-bar" `
+          --name "controle-de-bar" `
+          --settings `
+            "ConnectionStrings__SqlServerEF=${{ secrets.AZURESQL_CONNECTION_STRING }}" `
+            "Infra__NewRelic__LicenseKey=${{ secrets.NEWRELIC_LICENSE_KEY }}" `
+            "Apresentacao__AutoMapper__LicenseKey=${{ secrets.AUTOMAPPER_LICENSE_KEY }}"
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
