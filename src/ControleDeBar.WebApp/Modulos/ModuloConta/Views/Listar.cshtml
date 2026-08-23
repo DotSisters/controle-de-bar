@@ -3,7 +3,7 @@
 
 @{
   Layout = "_LayoutCrud";
-  ViewBag.Titulo = "Contas";
+  ViewBag.Titulo = "🧾 Contas";
   ViewBag.Info = "Cadastre, visualize e gerencie as contas do bar.";
   ViewBag.TextoBotao = "Cadastrar Conta";
   ViewBag.ControllerBotao = "Conta";
@@ -49,12 +49,12 @@
                   }
                   else
                   {
-                    <span class="badge text-bg-secondary rounded-pill">Fechada</span>
+                    <span class="badge text-bg-secondary  rounded-pill">Fechada</span>
                   }
                 </div>
                 @if (!string.IsNullOrWhiteSpace(conta.TempoDesdeUltimoPedido))
                 {
-                  <p class="fs-6 fw-medium mb-0 mt-2 text-body-secondary">
+                  <p class="small fw-medium mb-0 mt-2 text-body-secondary">
                     último pedido realizado @conta.TempoDesdeUltimoPedido
                   </p>
                 }
@@ -83,34 +83,44 @@
                   </dd>
                 </dl>
 
-                <div class="d-flex flex-wrap gap-2 mt-auto">
+
+
+                <div
+                  class="d-flex flex-wrap gap-2 mt-auto @(conta.Situacao == SituacaoConta.Aberta ? "justify-content-between" : "justify-content-start")">
                   @if (conta.Situacao == SituacaoConta.Aberta)
                   {
-                    <a asp-action="Gerenciar" asp-route-id="@conta.Id" class="btn btn-sm btn-primary" title="Fechar conta">
-                      <i class="bi bi-receipt"></i> Fechar Conta
-                    </a>
+                    <div>
+                      <a asp-action="Excluir" asp-route-id="@conta.Id" class="btn btn-sm btn-danger" title="Excluir conta">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                      <a asp-action="Editar" asp-route-id="@conta.Id" class="btn btn-sm btn-success" title="Editar conta">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+                    </div>
+
+                    <div>
+                      <a asp-action="AdicionarPedidos" asp-route-id="@conta.Id" class="btn btn-sm btn-blue-steel fw-medium"
+                        title="Adicionar pedidos">
+                        Adicionar Pedido
+                      </a>
+                      <a asp-action="Gerenciar" asp-route-id="@conta.Id" class="btn btn-sm btn-primary fw-medium"
+                        title="Fechar conta">
+                        Fechar Conta
+                      </a>
+                    </div>
                   }
                   else
                   {
-                    <a asp-action="Gerenciar" asp-route-id="@conta.Id" class="btn btn-sm btn-primary" title="Ver detalhes">
-                      <i class="bi bi-receipt"></i> Ver Detalhes
-                    </a>
+                    <div class="d-flex flex-wrap gap-2 justify-content-start">
+                      <a asp-action="Excluir" asp-route-id="@conta.Id" class="btn btn-sm btn-danger" title="Excluir conta">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                      <a asp-action="Gerenciar" asp-route-id="@conta.Id" class="btn btn-sm btn-blue-steel fw-medium"
+                        title="Ver detalhes">
+                        Ver Detalhes
+                      </a>
+                    </div>
                   }
-
-                  @if (conta.Situacao == SituacaoConta.Aberta)
-                  {
-                    <a asp-action="AdicionarPedidos" asp-route-id="@conta.Id" class="btn btn-sm btn-outline-primary"
-                      title="Adicionar pedidos">
-                      <i class="bi bi-plus-circle"></i> Adicionar Pedidos
-                    </a>
-                    <a asp-action="Editar" asp-route-id="@conta.Id" class="btn btn-sm btn-success" title="Editar conta">
-                      <i class="bi bi-pencil-square"></i> Editar
-                    </a>
-                  }
-
-                  <a asp-action="Excluir" asp-route-id="@conta.Id" class="btn btn-sm btn-danger" title="Excluir conta">
-                    <i class="bi bi-trash"></i> Excluir
-                  </a>
                 </div>
               </div>
             </div>
