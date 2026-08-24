@@ -714,6 +714,7 @@ body.page-mint::after {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.15;
+  margin-top: 2rem;
 }
 
 .hero-lead {
@@ -802,7 +803,7 @@ body.page-mint::after {
 }
 
 .hero-auth {
-  padding-top: 1rem;
+  padding-top: 0;
 }
 
 .hero-auth .hero-copy {
@@ -828,15 +829,27 @@ body.page-mint::after {
 }
 
 .hero-auth .hero-img {
-  width: min(76vw, 1080px);
+  width: min(38vw, 700px);
   max-width: none;
   max-height: calc(100dvh - 6rem);
   margin-right: 0;
   margin-left: 0;
   object-position: right bottom;
   flex-shrink: 0;
-  transform: translateY(-2rem);
+  transform: translateY(7rem) translateX(3rem);
 }
+
+.hero-auth .hero-img-registrar {
+  width: min(44vw, 800px);
+  max-width: none;
+  max-height: calc(100dvh - 6rem);
+  margin-right: 0;
+  margin-left: 0;
+  object-position: right bottom;
+  flex-shrink: 0;
+  transform: translateY(8rem)  translateX(6rem);
+}
+
 
 /* ---------- Home hub (authenticated) ---------- */
 
@@ -845,13 +858,14 @@ body.page-mint::after {
 }
 
 .home-visual-img {
-  width: min(58vw, 800px);
+  width: min(78vw, 1130px);
   max-width: none;
   max-height: calc(100dvh - 6rem);
   margin-right: 0;
   margin-left: 0;
   object-position: right bottom;
   flex-shrink: 0;
+  transform: translateY(-0.9rem);
   /* display: inline-block;
   max-height: min(50vh, 420px);
   width: min(68vw, 960px);

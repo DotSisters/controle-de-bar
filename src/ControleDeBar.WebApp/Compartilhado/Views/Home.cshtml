@@ -6,12 +6,12 @@
   ViewBag.Info = "Gerencie seu bar, mesas, garçons, produtos, contas e pedidos em um só lugar";
 }
 
-<div class="d-flex flex-column gap-3">
+<div class="d-flex flex-column gap-3 mt-2">
   <div class="row g-3">
 
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-4 ">
       <a asp-controller="Conta" asp-action="Listar"
-         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-receipt fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
@@ -23,7 +23,7 @@
 
     <div class="col-md-6 col-lg-4">
       <a asp-controller="Produto" asp-action="Listar"
-         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-basket-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
@@ -36,7 +36,7 @@
 
     <div class="col-md-6 col-lg-4">
       <a asp-controller="Mesa" asp-action="Listar"
-         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-people-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
@@ -48,7 +48,7 @@
 
     <div class="col-md-6 col-lg-4">
       <a asp-controller="Garcom" asp-action="Listar"
-         class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
+        class="card border shadow-sm h-100 text-decoration-none text-body home-module-card d-flex flex-row overflow-hidden">
         <div class="card-accent-mint" aria-hidden="true"></div>
         <div class="card-body">
           <i class="bi bi-person-badge-fill fs-3 text-primary mb-2 d-block" aria-hidden="true"></i>
@@ -57,5 +57,9 @@
         </div>
       </a>
     </div>
+  </div>
+
+  <div class="home-visual text-center">
+    <img src="~/img/home.png" alt="Ilustração Controle de Bar" class="img-fluid home-visual-img" />
   </div>
 </div>
