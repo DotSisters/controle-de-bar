@@ -37,13 +37,13 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("2");
 
         await Expect(listarPage.ValorUnitario("Produto01"))
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
     }
 
     [TestMethod]
@@ -89,10 +89,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("1");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
 
         await Expect(listarPage.SituacaoDaConta)
             .ToHaveTextAsync("Fechada");
@@ -128,10 +128,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("2");
 
         await Expect(listarPage.ValorUnitario("Produto01"))
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
 
         await Expect(listarPage.LinhaPorProduto("Produto02"))
             .ToBeVisibleAsync();
@@ -140,13 +140,13 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("1");
 
         await Expect(listarPage.ValorUnitario("Produto02"))
-            .ToContainTextAsync("R$ 15,00");
+            .ToContainTextAsync("R$ 15.00");
 
         await Expect(listarPage.TotalDoItem("Produto02"))
-            .ToContainTextAsync("R$ 15,00");
+            .ToContainTextAsync("R$ 15.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 35,00");
+            .ToContainTextAsync("R$ 35.00");
     }
 
     [TestMethod]
@@ -172,10 +172,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("5");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 50,00");
+            .ToContainTextAsync("R$ 50.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 50,00");
+            .ToContainTextAsync("R$ 50.00");
     }
 
     [TestMethod]
@@ -212,10 +212,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("2");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
 
         await contaListarPage.IrParaGerenciarAsync(NomeCliente);
 
@@ -223,10 +223,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("2");
 
         await Expect(gerenciarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
 
         await Expect(gerenciarPage.ValorTotal)
-            .ToContainTextAsync("R$ 20,00");
+            .ToContainTextAsync("R$ 20.00");
     }
 
     [TestMethod]
@@ -262,10 +262,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToBeVisibleAsync();
 
         await Expect(listarPage.TotalDoItem("Produto02"))
-            .ToContainTextAsync("R$ 15,00");
+            .ToContainTextAsync("R$ 15.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 15,00");
+            .ToContainTextAsync("R$ 15.00");
     }
 
     [TestMethod]
@@ -305,10 +305,10 @@ public sealed class ItemPedidoE2ETests : E2ETestsBase
             .ToHaveTextAsync("1");
 
         await Expect(listarPage.TotalDoItem("Produto01"))
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
 
         await Expect(listarPage.ValorTotalDaConta)
-            .ToContainTextAsync("R$ 10,00");
+            .ToContainTextAsync("R$ 10.00");
     }
 
     private async Task CadastrarDependenciasDaContaAsync(

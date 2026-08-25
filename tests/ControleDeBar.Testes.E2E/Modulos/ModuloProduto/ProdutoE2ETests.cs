@@ -23,7 +23,7 @@ public sealed class ProdutoE2ETests : E2ETestsBase
             .ToBeVisibleAsync();
 
         await Expect(listarPage.Valor("Produto01"))
-            .ToContainTextAsync("R$ 30,00");
+            .ToContainTextAsync("R$ 30.00");
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public sealed class ProdutoE2ETests : E2ETestsBase
             .ToBeVisibleAsync();
 
         await Expect(listarPage.Valor("Produto01-Editada"))
-            .ToContainTextAsync("R$ 60,00");
+            .ToContainTextAsync("R$ 60.00");
     }
 
     [TestMethod]

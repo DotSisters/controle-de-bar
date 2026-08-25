@@ -37,12 +37,11 @@ public sealed class MesaListarPage(
 
     public ILocator MensagemErro => page.Locator(".alert-danger");
 
-    // O título renderizado é "Mesa Mesa01"
     public ILocator NomeDaMesa(string nome) => page.GetByRole(
         AriaRole.Heading,
         new()
         {
-            Name = $"Mesa {nome}",
+            Name = nome,
             Exact = true
         }
     );

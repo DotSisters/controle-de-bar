@@ -60,36 +60,36 @@
                   <dt class="col-6 text-body-secondary fw-bold small mt-2">ID:</dt>
                   <dd class="col-6 mb-0 text-break font-monospace small text-muted">
                     @garcom.Id.ToString().Substring(0, 7)</dd>
-                </dl>
+                  </dl>
 
-                <div class="d-flex flex-wrap gap-2 mt-auto justify-content-start">
-                  <a asp-action="Editar" asp-route-id="@garcom.Id" class="btn btn-sm btn-success" title="Editar garçom">
-                    <i class="bi bi-pencil-square"></i>
-                  </a>
-                  <a asp-action="Excluir" asp-route-id="@garcom.Id" class="btn btn-sm btn-danger" title="Excluir garçom">
-                    <i class="bi bi-trash"></i>
-                  </a>
+                  <div class="d-flex flex-wrap gap-2 mt-auto justify-content-start">
+                    <a asp-action="Editar" asp-route-id="@garcom.Id" class="btn btn-sm btn-success" title="Editar garçom">
+                      <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a asp-action="Excluir" asp-route-id="@garcom.Id" class="btn btn-sm btn-danger" title="Excluir garçom">
+                      <i class="bi bi-trash"></i> Excluir
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      }
-    </div>
-  }
-</div>
+        }
+      </div>
+    }
+  </div>
 
-<style>
-  .card-header {
-    padding: 0.75rem 1rem;
-  }
+  <style>
+    .card-header {
+      padding: 0.75rem 1rem;
+    }
 
-  .card {
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+    .card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-  }
-</style>
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+  </style>
