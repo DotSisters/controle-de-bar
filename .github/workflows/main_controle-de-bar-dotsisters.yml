@@ -21,7 +21,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: "10.x"
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -35,36 +35,36 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  migrate: 
+  migrate:
     runs-on: windows-latest
     needs: build
     permissions:
       contents: read #This is required for actions/checkout
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: "10.x"
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.x"
 
-    - name: Restore dependencies
-      run: dotnet restore src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj
-    
-    - name: Install Entity Framework CLI
-      run: dotnet tool install --global dotnet-ef
+      - name: Restore dependencies
+        run: dotnet restore src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj
 
-    - name: Apply ORM migrations to AzureSQL
-      env:
-        AZURESQL__CONNECTION__STRING: ${{ secrets.AZURESQL_CONNECTION_STRING }}
-        Infra__NewRelic__LicenseKey: ${{ secrets.NEWRELIC_LICENSE_KEY }}
-      run: |
-         dotnet ef database update `
-          --project src/ControleDeBar.Infra/ControleDeBar.Infra.csproj `
-          --startup-project src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj `
-          --configuration Release `
-          --connection "$env:AZURESQL_CONNECTION_STRING"  
+      - name: Install Entity Framework CLI
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Apply ORM migrations to AzureSQL
+        env:
+          AZURESQL_CONNECTION_STRING: ${{ secrets.AZURESQL_CONNECTION_STRING }}
+          Infra__NewRelic__LicenseKey: ${{ secrets.NEWRELIC_LICENSE_KEY }}
+        run: |
+          dotnet ef database update `
+           --project src/ControleDeBar.Infra/ControleDeBar.Infra.csproj `
+           --startup-project src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj `
+           --configuration Release `
+           --connection "$env:AZURESQL_CONNECTION_STRING"
   deploy:
     runs-on: windows-latest
     needs: [build, migrate]
@@ -77,7 +77,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -89,19 +89,18 @@ jobs:
       - name: Configure Azure Web App Setting
         shell: pwsh
         run: |
-         az webapp config appsettings set `
-          --resource-group "controle-de-bar" `
-          --name "controle-de-bar" `
-          --settings `
-            "ConnectionStrings__SqlServerEF=${{ secrets.AZURESQL_CONNECTION_STRING }}" `
-            "Infra__NewRelic__LicenseKey=${{ secrets.NEWRELIC_LICENSE_KEY }}" `
-            "Apresentacao__AutoMapper__LicenseKey=${{ secrets.AUTOMAPPER_LICENSE_KEY }}"
+          az webapp config appsettings set `
+           --resource-group "controle-de-bar" `
+           --name "controle-de-bar-dotsisters" `
+           --settings `
+             "ConnectionStrings__SqlServerEF=${{ secrets.AZURESQL_CONNECTION_STRING }}" `
+             "Infra__NewRelic__LicenseKey=${{ secrets.NEWRELIC_LICENSE_KEY }}" `
+             "Apresentacao__AutoMapper__LicenseKey=${{ secrets.AUTOMAPPER_LICENSE_KEY }}"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'controle-de-bar-dotsisters'
-          slot-name: 'Production'
+          app-name: "controle-de-bar-dotsisters"
+          slot-name: "Production"
           package: .
-          
