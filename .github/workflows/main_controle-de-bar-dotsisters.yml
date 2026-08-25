@@ -35,9 +35,39 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
+  migrate: 
     runs-on: windows-latest
     needs: build
+    permissions:
+      contents: read #This is required for actions/checkout
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: "10.x"
+
+    - name: Restore dependencies
+      run: dotnet restore src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj
+    
+    - name: Install Entity Framework CLI
+      run: dotnet tool install --global dotnet-ef
+
+    - name: Apply ORM migrations to AzureSQL
+      env:
+        AZURESQL__CONNECTION__STRING: ${{ secrets.AZURESQL_CONNECTION_STRING }}
+        Infra__NewRelic__LicenseKey: ${{ secrets.NEWRELIC_LICENSE_KEY }}
+      run: |
+         dotnet ef database update `
+          --project src/ControleDeBar.Infra/ControleDeBar.Infra.csproj `
+          --startup-project src/ControleDeBar.WebApp/ControleDeBar.WebApp.csproj `
+          --configuration Release `
+          --connection "$env:AZURESQL_CONNECTION_STRING"  
+  deploy:
+    runs-on: windows-latest
+    needs: [build, migrate]
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
@@ -54,6 +84,18 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9E3EDB30C3CC402D874EF0CA514014C4 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E06D27519CFF47ECA5D044ADBEEDF409 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DBFF307F5C2449D3B69CC5043429A5D9 }}
+
+      # Atualizar variáveis de ambiente do Web App
+      - name: Configure Azure Web App Setting
+        shell: pwsh
+        run: |
+         az webapp config appsettings set `
+          --resource-group "controle-de-bar" `
+          --name "controle-de-bar" `
+          --settings `
+            "ConnectionStrings__SqlServerEF=${{ secrets.AZURESQL_CONNECTION_STRING }}" `
+            "Infra__NewRelic__LicenseKey=${{ secrets.NEWRELIC_LICENSE_KEY }}" `
+            "Apresentacao__AutoMapper__LicenseKey=${{ secrets.AUTOMAPPER_LICENSE_KEY }}"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
